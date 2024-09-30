@@ -80,7 +80,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="eAQ-vr-cdQ">
+                            <datePicker contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="eAQ-vr-cdQ">
                                 <rect key="frame" x="300" y="64" width="77" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="PW3-kv-pud"/>
@@ -124,6 +124,7 @@
                     <navigationItem key="navigationItem" id="PSt-JA-bTs"/>
                     <connections>
                         <outlet property="addTrackerButton" destination="0gG-wI-Onm" id="kHj-LS-NYm"/>
+                        <outlet property="datePicker" destination="eAQ-vr-cdQ" id="KYa-Rz-Cme"/>
                         <outlet property="emptyTrackersImage" destination="Jwb-fN-s4s" id="XEr-hu-hH8"/>
                         <outlet property="emptyTrackersLabel" destination="EoW-ec-egF" id="4ZT-1l-4R4"/>
                         <outlet property="header" destination="J3a-Nd-rzV" id="Saf-gP-Bwa"/>
