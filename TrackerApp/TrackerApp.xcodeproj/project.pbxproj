@@ -23,7 +23,9 @@
 		BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB425722CAAB18D00CA4BAF /* WeekDay.swift */; };
 		BFB4258C2CAFF78600CA4BAF /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4258B2CAFF78600CA4BAF /* TabBarController.swift */; };
 		BFB4258E2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4258D2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift */; };
-		BFB425902CB2D05600CA4BAF /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4258F2CB2D05600CA4BAF /* CreateTrackerViewController.swift */; };
+		BFB425902CB2D05600CA4BAF /* CreateHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4258F2CB2D05600CA4BAF /* CreateHabitViewController.swift */; };
+		BFB425922CB3E14500CA4BAF /* CreateHabbitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */; };
+		BFB425942CB3E55400CA4BAF /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +66,9 @@
 		BFB425722CAAB18D00CA4BAF /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
 		BFB4258B2CAFF78600CA4BAF /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		BFB4258D2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCollectionViewCell.swift; sourceTree = "<group>"; };
-		BFB4258F2CB2D05600CA4BAF /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
+		BFB4258F2CB2D05600CA4BAF /* CreateHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitViewController.swift; sourceTree = "<group>"; };
+		BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabbitTableViewCell.swift; sourceTree = "<group>"; };
+		BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,12 +136,14 @@
 				BFB425522CAAB0A400CA4BAF /* Info.plist */,
 				BFB425542CAAB0A400CA4BAF /* LaunchScreen.storyboard */,
 				BFB425572CAAB0A400CA4BAF /* SceneDelegate.swift */,
+				BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */,
 				BFB4258D2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift */,
 				BFB425582CAAB0A400CA4BAF /* StatisticsViewController.swift */,
 				BFB425592CAAB0A400CA4BAF /* AddTrackerViewController.swift */,
 				BFB4255A2CAAB0A400CA4BAF /* TrackerViewController.swift */,
 				BFB4258B2CAFF78600CA4BAF /* TabBarController.swift */,
-				BFB4258F2CB2D05600CA4BAF /* CreateTrackerViewController.swift */,
+				BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */,
+				BFB4258F2CB2D05600CA4BAF /* CreateHabitViewController.swift */,
 			);
 			path = TrackerApp;
 			sourceTree = "<group>";
@@ -301,11 +307,13 @@
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFB4258E2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift in Sources */,
 				BFB4258C2CAFF78600CA4BAF /* TabBarController.swift in Sources */,
+				BFB425942CB3E55400CA4BAF /* ScheduleViewController.swift in Sources */,
 				BFB4255F2CAAB0A400CA4BAF /* TrackerRecord.swift in Sources */,
+				BFB425922CB3E14500CA4BAF /* CreateHabbitTableViewCell.swift in Sources */,
 				BFB425602CAAB0A400CA4BAF /* AppDelegate.swift in Sources */,
 				BFB425612CAAB0A400CA4BAF /* SceneDelegate.swift in Sources */,
 				BFB425622CAAB0A400CA4BAF /* StatisticsViewController.swift in Sources */,
-				BFB425902CB2D05600CA4BAF /* CreateTrackerViewController.swift in Sources */,
+				BFB425902CB2D05600CA4BAF /* CreateHabitViewController.swift in Sources */,
 				BFB425632CAAB0A400CA4BAF /* AddTrackerViewController.swift in Sources */,
 				BFB425642CAAB0A400CA4BAF /* TrackerViewController.swift in Sources */,
 			);

@@ -86,6 +86,18 @@ final class TrackerViewController: UIViewController {
         let formattedDate = dateFormatter.string(from: selectedDate)
         print("Выбранная дата: \(formattedDate)")
     }
+    
+    func addTracker(tracker: Tracker) {
+        trackers.append(tracker)
+        categories = categories.map { category in
+            var updatedTrackers = category.trackers
+            updatedTrackers.append(tracker)
+            return TrackerCategory(header: category.header, trackers: updatedTrackers)}
+    }
+    
+    func reload() {
+        collectionView.reloadData()
+    }
     // MARK: - Private Methods
     private func setUpNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -130,6 +142,7 @@ final class TrackerViewController: UIViewController {
         emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
     }
+    
 }
 
 //MARK: - UICollectionViewDataSource

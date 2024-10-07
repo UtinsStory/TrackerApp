@@ -80,7 +80,9 @@ final class AddTrackerViewController: UIViewController {
     // MARK: - Public Methods
     @objc
     func habitButtonTapped() {
-        
+        let addHabbit = CreateHabitViewController()
+        addHabbit.trackersVC = self.trackerVC
+        present(addHabbit, animated: true)
     }
     
     @objc
