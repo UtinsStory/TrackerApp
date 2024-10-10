@@ -13,7 +13,7 @@ final class CreateHabitViewController: UIViewController {
     let cellReuseIdentifier = "CreateHabbitTableViewCell"
     // MARK: - Private Properties
     private var selectedDays: [WeekDay] = []
-    private var colors: [UIColor] = [.ypColorSelection1,
+    private let colors: [UIColor] = [.ypColorSelection1,
                                      .ypColorSelection2,
                                      .ypColorSelection3,
                                      .ypColorSelection4,
@@ -106,6 +106,7 @@ final class CreateHabitViewController: UIViewController {
         habitTableView.delegate = self
         habitTableView.dataSource = self
         habitTableView.register(CreateHabbitTableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        habitTableView.separatorStyle = .none
         
         return habitTableView
     }()
@@ -120,10 +121,6 @@ final class CreateHabitViewController: UIViewController {
         
         
         view.addSubviews([header, addTrackerName, stackButtons, habitTableView])
-//        view.addSubview(header)
-//        view.addSubview(addTrackerName)
-//        view.addSubview(stackButtons)
-//        view.addSubview(habitTableView)
         habitTableView.layer.cornerRadius = 16
         [cancelButton, createButton].forEach { stackButtons.addArrangedSubview($0)}
         NSLayoutConstraint.activate([

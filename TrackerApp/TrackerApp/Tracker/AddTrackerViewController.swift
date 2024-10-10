@@ -87,7 +87,9 @@ final class AddTrackerViewController: UIViewController {
     
     @objc
     func irregularEventButtonTapped() {
-        
+        let addEvent = CreateIrregularEventViewController()
+        addEvent.trackerVC = self.trackerVC
+        present(addEvent, animated: true)
     }
     // MARK: - Private Methods
 }

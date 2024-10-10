@@ -1,12 +1,12 @@
 //
-//  CreateHabbitTableViewCell.swift
+//  CreateIrregularEventTableViewCell.swift
 //  TrackerApp
 //
-//  Created by Гена Утин on 07.10.2024.
+//  Created by Гена Утин on 10.10.2024.
 //
 import UIKit
 
-final class CreateHabbitTableViewCell: UITableViewCell {
+final class CreateIrregularEventTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)

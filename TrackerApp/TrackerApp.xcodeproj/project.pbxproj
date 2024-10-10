@@ -28,6 +28,8 @@
 		BFB425942CB3E55400CA4BAF /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */; };
 		BFB425992CB51E9E00CA4BAF /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB425982CB51E9400CA4BAF /* ScheduleTableViewCell.swift */; };
 		BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4259A2CB521A400CA4BAF /* UIView+Extension.swift */; };
+		BFDAE2062CB7BAD800ECAA6F /* CreateIrregularEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */; };
+		BFDAE2082CB7BBB000ECAA6F /* CreateIrregularEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		BFB425982CB51E9400CA4BAF /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		BFB4259A2CB521A400CA4BAF /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIrregularEventViewController.swift; sourceTree = "<group>"; };
+		BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIrregularEventTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,7 @@
 		BFB4255C2CAAB0A400CA4BAF /* TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE2042CB5390400ECAA6F /* Irregular event creation */,
 				BFB425972CB51E2700CA4BAF /* Statistics */,
 				BFB425962CB51DF800CA4BAF /* Habit creation */,
 				BFB425952CB51DC600CA4BAF /* Tracker */,
@@ -193,6 +198,15 @@
 				BFB425582CAAB0A400CA4BAF /* StatisticsViewController.swift */,
 			);
 			path = Statistics;
+			sourceTree = "<group>";
+		};
+		BFDAE2042CB5390400ECAA6F /* Irregular event creation */ = {
+			isa = PBXGroup;
+			children = (
+				BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */,
+				BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */,
+			);
+			path = "Irregular event creation";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +361,8 @@
 				BFB425992CB51E9E00CA4BAF /* ScheduleTableViewCell.swift in Sources */,
 				BFB425902CB2D05600CA4BAF /* CreateHabitViewController.swift in Sources */,
 				BFB425632CAAB0A400CA4BAF /* AddTrackerViewController.swift in Sources */,
+				BFDAE2062CB7BAD800ECAA6F /* CreateIrregularEventViewController.swift in Sources */,
+				BFDAE2082CB7BBB000ECAA6F /* CreateIrregularEventTableViewCell.swift in Sources */,
 				BFB425642CAAB0A400CA4BAF /* TrackerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

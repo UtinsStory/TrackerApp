@@ -51,6 +51,10 @@ final class TrackerViewController: UIViewController {
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
+    private let testCategory: TrackerCategory = .init(header: "Лекарства", trackers: [])
+    
+    var currentDate: Date = Date()
+    
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +91,8 @@ final class TrackerViewController: UIViewController {
         dateFormatter.locale = Locale(identifier: "ru_RU")
         let formattedDate = dateFormatter.string(from: selectedDate)
         print("Выбранная дата: \(formattedDate)")
+        var currentDate = selectedDate
+        
     }
     
     func addTracker(tracker: Tracker) {
