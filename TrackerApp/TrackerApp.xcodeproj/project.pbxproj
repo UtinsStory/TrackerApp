@@ -30,6 +30,7 @@
 		BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB4259A2CB521A400CA4BAF /* UIView+Extension.swift */; };
 		BFDAE2062CB7BAD800ECAA6F /* CreateIrregularEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */; };
 		BFDAE2082CB7BBB000ECAA6F /* CreateIrregularEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */; };
+		BFDAE2212CB7DA4400ECAA6F /* TrackerCVHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2202CB7DA3E00ECAA6F /* TrackerCVHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		BFB4259A2CB521A400CA4BAF /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIrregularEventViewController.swift; sourceTree = "<group>"; };
 		BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIrregularEventTableViewCell.swift; sourceTree = "<group>"; };
+		BFDAE2202CB7DA3E00ECAA6F /* TrackerCVHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCVHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,10 +140,10 @@
 		BFB4255C2CAAB0A400CA4BAF /* TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
-				BFDAE2042CB5390400ECAA6F /* Irregular event creation */,
 				BFB425972CB51E2700CA4BAF /* Statistics */,
-				BFB425962CB51DF800CA4BAF /* Habit creation */,
 				BFB425952CB51DC600CA4BAF /* Tracker */,
+				BFDAE2042CB5390400ECAA6F /* IrregularEventCreation */,
+				BFB425962CB51DF800CA4BAF /* HabitCreation */,
 				BFB4254F2CAAB0A400CA4BAF /* Models */,
 				BFB425502CAAB0A400CA4BAF /* AppDelegate.swift */,
 				BFB425512CAAB0A400CA4BAF /* Assets.xcassets */,
@@ -174,6 +176,7 @@
 		BFB425952CB51DC600CA4BAF /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE2202CB7DA3E00ECAA6F /* TrackerCVHeader.swift */,
 				BFB4258D2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift */,
 				BFB425592CAAB0A400CA4BAF /* AddTrackerViewController.swift */,
 				BFB4255A2CAAB0A400CA4BAF /* TrackerViewController.swift */,
@@ -181,7 +184,7 @@
 			path = Tracker;
 			sourceTree = "<group>";
 		};
-		BFB425962CB51DF800CA4BAF /* Habit creation */ = {
+		BFB425962CB51DF800CA4BAF /* HabitCreation */ = {
 			isa = PBXGroup;
 			children = (
 				BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */,
@@ -189,7 +192,7 @@
 				BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */,
 				BFB425982CB51E9400CA4BAF /* ScheduleTableViewCell.swift */,
 			);
-			path = "Habit creation";
+			path = HabitCreation;
 			sourceTree = "<group>";
 		};
 		BFB425972CB51E2700CA4BAF /* Statistics */ = {
@@ -200,13 +203,13 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
-		BFDAE2042CB5390400ECAA6F /* Irregular event creation */ = {
+		BFDAE2042CB5390400ECAA6F /* IrregularEventCreation */ = {
 			isa = PBXGroup;
 			children = (
 				BFDAE2072CB7BBAA00ECAA6F /* CreateIrregularEventTableViewCell.swift */,
 				BFDAE2052CB7BACA00ECAA6F /* CreateIrregularEventViewController.swift */,
 			);
-			path = "Irregular event creation";
+			path = IrregularEventCreation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,6 +361,7 @@
 				BFB425602CAAB0A400CA4BAF /* AppDelegate.swift in Sources */,
 				BFB425612CAAB0A400CA4BAF /* SceneDelegate.swift in Sources */,
 				BFB425622CAAB0A400CA4BAF /* StatisticsViewController.swift in Sources */,
+				BFDAE2212CB7DA4400ECAA6F /* TrackerCVHeader.swift in Sources */,
 				BFB425992CB51E9E00CA4BAF /* ScheduleTableViewCell.swift in Sources */,
 				BFB425902CB2D05600CA4BAF /* CreateHabitViewController.swift in Sources */,
 				BFB425632CAAB0A400CA4BAF /* AddTrackerViewController.swift in Sources */,
