@@ -19,10 +19,22 @@ final class TrackerViewController: UIViewController {
     
     
     // MARK: - Private Properties
-    private var searchBar: UISearchBar!
-    private var header: UILabel!
-    private var emptyTrackersImage: UIImageView?
-    private var emptyTrackersLabel: UILabel?
+    private lazy var emptyTrackersImage: UIImageView = {
+        let emptyTrackersImage = UIImageView(image: .empty)
+        emptyTrackersImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        return emptyTrackersImage
+    }()
+    private lazy var emptyTrackersLabel: UILabel = {
+        let emptyTrackersLabel = UILabel()
+        emptyTrackersLabel.text = "Что будем отслеживать?"
+        emptyTrackersLabel.textColor = .ypBlack
+        emptyTrackersLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        emptyTrackersLabel.translatesAutoresizingMaskIntoConstraints = false
+        emptyTrackersLabel.textAlignment = .center
+        
+        return emptyTrackersLabel
+    }()
     private var addTrackerButton: UIButton {
         let addTrackerButton = UIButton()
         addTrackerButton.setImage(UIImage(named: "plus"), for: .normal)
@@ -53,7 +65,8 @@ final class TrackerViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.reuseId)
+        collectionView.register(TrackersCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TrackersCollectionViewCell.reuseId)
         collectionView.register(TrackerCVHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         
         return collectionView
@@ -65,11 +78,19 @@ final class TrackerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "YPWhite")
-        
+        view.addSubviews([emptyTrackersImage, emptyTrackersLabel])
+        NSLayoutConstraint.activate([
+            emptyTrackersImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            emptyTrackersImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            emptyTrackersLabel.heightAnchor.constraint(equalToConstant: 18),
+            emptyTrackersLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            emptyTrackersLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            emptyTrackersLabel.topAnchor.constraint(equalTo: emptyTrackersImage.bottomAnchor, constant: 8)
+        ])
         setUpNavigationBar()
-        setUpEmptyTrackersImage()
-        setUpEmptyTrackersLabel()
+        
         setUpCollectionView()
+        showStub()
         
         let testCategory = TrackerCategory(header: "Домашний уют", trackers: trackers)
         categories.append(testCategory)
@@ -123,31 +144,30 @@ final class TrackerViewController: UIViewController {
         }
     }
     
-    private func setUpEmptyTrackersImage() {
-        let emptyTrackersImage = UIImageView(image: UIImage(named: "empty"))
-        
-        view.addSubview(emptyTrackersImage)
-        emptyTrackersImage.translatesAutoresizingMaskIntoConstraints = false
-        
-        guard let emptyTrackersLabel else { return }
-        emptyTrackersImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        emptyTrackersImage.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        emptyTrackersImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emptyTrackersImage.bottomAnchor.constraint(equalTo: emptyTrackersLabel.topAnchor, constant: -40).isActive = true
-    }
-    
-    private func setUpEmptyTrackersLabel() {
-        let emptyTrackersLabel = UILabel()
-        emptyTrackersLabel.text = "Что будем отслеживать?"
-        emptyTrackersLabel.textColor = .ypBlack
-        emptyTrackersLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        
-        view.addSubview(emptyTrackersLabel)
-        emptyTrackersLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emptyTrackersLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
+//    private func setUpEmptyTrackersImage() {
+//        let emptyTrackersImage = UIImageView(image: UIImage(named: "empty"))
+//        
+//        view.addSubview(emptyTrackersImage)
+//        emptyTrackersImage.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        emptyTrackersImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
+//        emptyTrackersImage.heightAnchor.constraint(equalToConstant: 80).isActive = true
+//        emptyTrackersImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+////        emptyTrackersImage.bottomAnchor.constraint(equalTo: emptyTrackersLabel!.topAnchor, constant: -40).isActive = true
+//    }
+//    
+//    private func setUpEmptyTrackersLabel() {
+//        let emptyTrackersLabel = UILabel()
+//        emptyTrackersLabel.text = "Что будем отслеживать?"
+//        emptyTrackersLabel.textColor = .ypBlack
+//        emptyTrackersLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+//        
+//        view.addSubview(emptyTrackersLabel)
+//        emptyTrackersLabel.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        emptyTrackersLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        emptyTrackersLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//    }
     
     private func setUpCollectionView() {
         collectionView.dataSource = self
@@ -163,6 +183,18 @@ final class TrackerViewController: UIViewController {
         ])
     }
     
+    private func showStub() {
+        collectionView.reloadData()
+        if visiableCategories.isEmpty {
+            emptyTrackersImage.isHidden = false
+            emptyTrackersLabel.isHidden = false
+            collectionView.isHidden = true
+        } else {
+            emptyTrackersImage.isHidden = true
+            emptyTrackersLabel.isHidden = true
+            collectionView.isHidden = false
+        }
+    }
     
 }
 
@@ -176,7 +208,7 @@ extension TrackerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.reuseId,
                                                             for: indexPath)
                 as? TrackersCollectionViewCell else { return UICollectionViewCell()}
         
@@ -188,8 +220,10 @@ extension TrackerViewController: UICollectionViewDataSource {
         let completedDays = completedTrackers.filter {
             $0.id == tracker.id
         }.count
-        cell.configure(tracker: tracker, isCompletedToday: isCompletedToday, completedDays: completedDays, indexPath: indexPath)
-        
+        cell.configure(tracker: tracker,
+                       isCompletedToday: isCompletedToday,
+                       completedDays: completedDays,
+                       indexPath: indexPath)
         
         return cell
         
