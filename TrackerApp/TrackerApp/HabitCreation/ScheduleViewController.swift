@@ -7,138 +7,187 @@
 
 import UIKit
 
-final class ScheduleViewController: UIViewController {
-    // MARK: - Public Properties
-    var createHabitVC: CreateHabitViewController?
-    let scheduleCellReuseIdentifier = "ScheduleTableViewCell"
+protocol ScheduleViewControllerDelegate: AnyObject {
+    func didUpdateSchedule(selectedDays: [WeekDay], displayText: String)
+}
+
+final class ScheduleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    weak var delegate: ScheduleViewControllerDelegate?
+    private let tableView = UITableView()
+    private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    private var switchStates: [Bool] = [false, false, false, false, false, false, false]
     
-    // MARK: - Private Properties
-    private let header: UILabel = {
-        let header = UILabel()
-        header.translatesAutoresizingMaskIntoConstraints = false
-        header.text = "Расписание"
-        header.font = .systemFont(ofSize: 16, weight: .medium)
-        header.textColor = .ypBlack
-        
-        return header
-    }()
-    
-    private let scheduleTableView: UITableView = {
-        let scheduleTableView = UITableView()
-        scheduleTableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return scheduleTableView
-    }()
-    
-    private lazy var doneScheduleButton: UIButton = {
-        let doneScheduleButton = UIButton(type: .custom)
-        doneScheduleButton.setTitle("Готово", for: .normal)
-        doneScheduleButton.setTitleColor(.ypWhite, for: .normal)
-        doneScheduleButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        doneScheduleButton.backgroundColor = .ypBlack
-        doneScheduleButton.layer.cornerRadius = 16
-        doneScheduleButton.translatesAutoresizingMaskIntoConstraints = false
-        doneScheduleButton.addTarget(self, action: #selector(doneScheduleButtonDidTap), for: .touchUpInside)
-        
-        return doneScheduleButton
-    }()
-    // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setUI()
+    }
+    
+    private func setUI() {
         view.backgroundColor = .ypWhite
-        view.addSubviews([header, scheduleTableView, doneScheduleButton])
+        setLabel()
+        setTableView()
         
-        scheduleTableView.delegate = self
-        scheduleTableView.dataSource = self
-        scheduleTableView.register(ScheduleTableViewCell.self,
-                                   forCellReuseIdentifier: scheduleCellReuseIdentifier)
-        scheduleTableView.layer.cornerRadius = 16
-        scheduleTableView.separatorStyle = .none
+        let buttonDone = createButton(title: "Готово", action: #selector(buttonDoneTapped))
+        view.addSubview(buttonDone)
         
-        setUpConstraints()
-    }
-    // MARK: - Public Methods
-    @objc
-    func doneScheduleButtonDidTap() {
-        var selected: [Int] = []
-        for (index, element) in scheduleTableView.visibleCells.enumerated() {
-            guard let cell = element as? ScheduleTableViewCell else { return }
-            
-            if cell.selectedDay {
-                selected.append(index)
-            }
-            self.createHabitVC?.saveDay(indicies: selected)
-            dismiss(animated: true)
-        }
-    }
-    // MARK: - Private Methods
-    private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: view.topAnchor),
-            view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            header.topAnchor.constraint(equalTo: view.topAnchor, constant: 26),
-            header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scheduleTableView.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 30),
-            scheduleTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            scheduleTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            scheduleTableView.heightAnchor.constraint(equalToConstant: 524),
-            doneScheduleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            doneScheduleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            doneScheduleButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            doneScheduleButton.heightAnchor.constraint(equalToConstant: 60)
+            buttonDone.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            buttonDone.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            buttonDone.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
     }
-}
-
-//MARK: - UITableViewDelegate
-extension ScheduleViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return 75
+    
+    private func isEverydaySelected(_ days: [WeekDay]) -> Bool {
+        return Set(days) == Set(WeekDay.allCases)
     }
     
-    func tableView(_ tableView: UITableView,
-                   willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        let separatorInset: CGFloat = 16
-        let separatorWidth = tableView.bounds.width - separatorInset * 2
-        let separatorHeight: CGFloat = 1.0
-        let separatorX = separatorInset
-        let separatorY = cell.frame.height - separatorHeight
-        
-        let separatorView = UIView(frame: CGRect(x: separatorX, y: separatorY, width: separatorWidth, height: separatorHeight))
-        separatorView.backgroundColor = .ypGray
-        
-        cell.addSubview(separatorView)
+    private func isWeekdaysSelected(_ days: [WeekDay]) -> Bool {
+        let weekdays: Set<WeekDay> = [.monday, .tuesday, .wednesday, .thursday, .friday]
+        return Set(days) == weekdays
     }
     
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-        
-        scheduleTableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-//MARK: - UITableViewDataSource
-extension ScheduleViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        
-        return 7
+    private func isWeekendSelected(_ days: [WeekDay]) -> Bool {
+        let weekend: Set<WeekDay> = [.saturday, .sunday]
+        return Set(days).isSubset(of: weekend)
     }
     
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    private func getDisplayText(for days: [WeekDay]) -> String {
+        if isEverydaySelected(days) {
+            return "Каждый день"
+        } else if isWeekdaysSelected(days) {
+            return "Будние дни"
+        } else if isWeekendSelected(days) {
+            return "Выходные дни"
+        } else {
+            return days.map { $0.asShortText() }.joined(separator: ", ")
+        }
+    }
+    
+    private func updateSchedule() {
+        let selectedDays = getSelectedDays()
+        let displayText = getDisplayText(for: selectedDays)
+        delegate?.didUpdateSchedule(selectedDays: selectedDays, displayText: displayText)
+    }
+    
+    private func getSelectedDays() -> [WeekDay] {
+        return daysOfWeek.enumerated().compactMap { index, _ in
+            return switchStates[index] ? WeekDay(rawValue: index + 1) : nil
+        }
+    }
+    
+    private func setLabel() {
+        let label = UILabel()
+        label.text = "Расписание"
+        label.textColor = .ypBlack
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: scheduleCellReuseIdentifier, for: indexPath) as? ScheduleTableViewCell else { return UITableViewCell() }
+        view.addSubview(label)
         
-        let dayofTheWeek = WeekDay.allCases[indexPath.row]
-        cell.update(with: "\(dayofTheWeek.name)")
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func setTableView() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        tableView.dataSource = self
         
+        tableView.layer.cornerRadius = 16
+        tableView.layer.masksToBounds = true
+        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.separatorStyle = .singleLine
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 87),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    // MARK: - Table view data source
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return daysOfWeek.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        configureCell(cell, at: indexPath)
+        
+        if indexPath.row == daysOfWeek.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
+        
+        cell.backgroundColor = .ypBackground
         return cell
+    }
+    
+    func configureCell(_ cell: UITableViewCell, at indexPath: IndexPath) {
+        let dayOfWeek = daysOfWeek[indexPath.row]
+        cell.textLabel?.text = dayOfWeek
+        
+        let switcher = UISwitch()
+        switcher.isOn = switchStates[indexPath.row]
+        switcher.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
+        
+        cell.accessoryView = switcher
+        cell.selectionStyle = .none
+        switcher.onTintColor = .ypBlue
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        
+        if indexPath.row == 0 {
+            cell.layer.cornerRadius = 16
+            cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            cell.layer.masksToBounds = true
+        }
+        
+        if indexPath.row == daysOfWeek.count - 1 {
+            cell.layer.cornerRadius = 16
+            cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            cell.layer.masksToBounds = true
+        }
+    }
+    
+    func indexPathForView(_ view: UIView) -> IndexPath? {
+        let point = view.convert(CGPoint.zero, to: tableView)
+        return tableView.indexPathForRow(at: point)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75.0
+    }
+    
+    private func createButton(title: String, action: Selector) -> UIButton {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .ypBlack
+        button.layer.cornerRadius = 16
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        return button
+    }
+    
+    @objc func switchChanged(_ sender: UISwitch) {
+        if let indexPath = indexPathForView(sender) {
+            switchStates[indexPath.row] = sender.isOn
+        }
+    }
+    
+    @objc private func buttonDoneTapped() {
+        updateSchedule()
+        dismiss(animated: true, completion: nil)
     }
 }

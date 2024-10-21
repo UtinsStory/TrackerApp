@@ -6,90 +6,83 @@
 //
 import UIKit
 
+protocol TrackerTypeDelegate: AnyObject {
+    func showCreateHabit()
+    func showCreateIrregularEvent()
+}
+
 final class AddTrackerViewController: UIViewController {
     
-    // MARK: - Public Properties
-    var trackerVC: TrackerViewController?
-    // MARK: - Private Properties
-    private lazy var header: UILabel = {
-        let header = UILabel()
-        view.addSubview(header)
-        header.translatesAutoresizingMaskIntoConstraints = false
-        header.text = "Создание трекера"
-        header.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        header.textColor = .ypBlack
-        
-        return header
-    }()
+    weak var delegate: TrackerTypeDelegate?
+    weak var habitCreationDelegate: HabitCreationDelegate?
     
-    private lazy var habitButton: UIButton = {
-        let habitButton = UIButton(type: .custom)
-        view.addSubview(habitButton)
-        habitButton.translatesAutoresizingMaskIntoConstraints = false
-        habitButton.setTitle("Привычка", for: .normal)
-        habitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        habitButton.setTitleColor(.ypWhite, for: .normal)
-        habitButton.backgroundColor = .ypBlack
-        habitButton.layer.cornerRadius = 16
-        habitButton.addTarget(self, action: #selector(habitButtonTapped), for: .touchUpInside)
-        
-        return habitButton
-    }()
-    
-    private lazy var irregularEventButton: UIButton = {
-        let irregularEventButton = UIButton(type: .custom)
-        view.addSubview(irregularEventButton)
-        irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
-        irregularEventButton.setTitle("Нерегулярное событие", for: .normal)
-        irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        irregularEventButton.setTitleColor(.ypWhite, for: .normal)
-        irregularEventButton.backgroundColor = .ypBlack
-        irregularEventButton.layer.cornerRadius = 16
-        irregularEventButton.addTarget(self, action: #selector(irregularEventButtonTapped), for: .touchUpInside)
-        
-        return irregularEventButton
-    }()
-    
-    // MARK: - Initializers
-    
-    // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
+        setLabel()
+        setupUI()
+    }
+    
+    private func setupUI() {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.distribution = .fillEqually
+        view.addSubview(stackView)
+
+        let buttonHabbit = createButton(title: "Привычка", action: #selector(habitButtonTaped))
+        stackView.addArrangedSubview(buttonHabbit)
+ 
+        let buttonOneEvent = createButton(title: "Нерегулярное событие", action: #selector(irregularEventButtonTaped))
+        stackView.addArrangedSubview(buttonOneEvent)
         
         NSLayoutConstraint.activate([
-                   view.topAnchor.constraint(equalTo: view.topAnchor),
-                   view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                   view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                   view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                   header.topAnchor.constraint(equalTo: view.topAnchor, constant: 26),
-                   header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                   habitButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 295),
-                   habitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                   habitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                   habitButton.heightAnchor.constraint(equalToConstant: 60),
-                   irregularEventButton.topAnchor.constraint(equalTo: habitButton.bottomAnchor, constant: 16),
-                   irregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                   irregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                   irregularEventButton.heightAnchor.constraint(equalToConstant: 60)
-                   ])
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 344),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.heightAnchor.constraint(equalToConstant: 140)
+        ])
     }
     
-    // MARK: - IB Actions
-    
-    // MARK: - Public Methods
-    @objc
-    func habitButtonTapped() {
-        let addHabbit = CreateHabitViewController()
-        addHabbit.trackersVC = self.trackerVC
-        present(addHabbit, animated: true)
+    @objc private func habitButtonTaped() {
+        delegate?.showCreateHabit()
+        print("Создали привычку!")
     }
     
-    @objc
-    func irregularEventButtonTapped() {
-        let addEvent = CreateIrregularEventViewController()
-        addEvent.trackerVC = self.trackerVC
-        present(addEvent, animated: true)
+    @objc private func irregularEventButtonTaped() {
+        delegate?.showCreateIrregularEvent()
+        print("Создали нерегулярное событие!")
     }
-    // MARK: - Private Methods
+    
+    private func setLabel() {
+        let label = UILabel()
+        label.text = "Создание трекера"
+        label.textColor = .ypBlack
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+  
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func createButton(title: String, action: Selector) -> UIButton {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .ypBlack
+        button.layer.cornerRadius = 16
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        return button
+    }
 }

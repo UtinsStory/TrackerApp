@@ -7,12 +7,20 @@
 
 import UIKit
 
-final class CreateHabitViewController: UIViewController {
-    // MARK: - Public Properties
-    var trackersVC: TrackerViewController?
-    let cellReuseIdentifier = "CreateHabbitTableViewCell"
+// MARK: - HabitTableViewDelegate
+protocol HabitTableViewDelegate: AnyObject {
+    func didSelectTimetable()
+}
+
+// MARK: - HabitCreationDelegate
+protocol HabitCreationDelegate: AnyObject {
+    func didCreateHabit(_ habit: Tracker)
+}
+
+final class CreateHabitViewController: UIViewController, UITableViewDelegate {
+    
     // MARK: - Private Properties
-    private var selectedDays: [WeekDay] = []
+    
     private let colors: [UIColor] = [.ypColorSelection1,
                                      .ypColorSelection2,
                                      .ypColorSelection3,
@@ -32,61 +40,72 @@ final class CreateHabitViewController: UIViewController {
                                      .ypColorSelection17,
                                      .ypColorSelection18]
     
-    private let emojies: [String] = [
+    private let emojis: [String] = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"
     ]
     
-    private let header: UILabel = {
-        let header = UILabel()
-        header.translatesAutoresizingMaskIntoConstraints = false
-        header.text = "Новая привычка"
-        header.font = .systemFont(ofSize: 16, weight: .medium)
-        header.textColor = .ypBlack
-        
-        return header
+    private var selectedWeekDays: [WeekDay] = []
+    
+    weak var delegate: HabitCreationDelegate?
+    
+    var isIrregularEvent: Bool = false
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .ypWhite
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
     
-    private let addTrackerName: UITextField = {
-        let addTrackerName = UITextField()
-        addTrackerName.translatesAutoresizingMaskIntoConstraints = false
-        addTrackerName.placeholder = "Введите название трекера"
-        addTrackerName.backgroundColor = .ypBackground
-        addTrackerName.layer.cornerRadius = 16
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        addTrackerName.leftView = leftView
-        addTrackerName.leftViewMode = .always
-        addTrackerName.keyboardType = .default
-        addTrackerName.returnKeyType = .done
-        addTrackerName.becomeFirstResponder()
+    private lazy var habitLabel: UILabel = {
+        let newhabitLabel = UILabel()
+        newhabitLabel.text = isIrregularEvent ? "Новое нерегулярное событие" : "Новая привычка"
+        newhabitLabel.textColor = .ypBlack
+        newhabitLabel.textAlignment = .center
+        newhabitLabel.font = .systemFont(ofSize: 16)
+        newhabitLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        return addTrackerName
+        return newhabitLabel
     }()
     
-    private lazy var cancelButton: UIButton = {
-        let cancelButton = UIButton(type: .custom)
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.setTitleColor(.ypRed, for: .normal)
-        cancelButton.layer.borderWidth = 1
-        cancelButton.layer.borderColor = UIColor.ypRed.cgColor
-        cancelButton.layer.cornerRadius = 16
-        cancelButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        cancelButton.setTitle("Отменить", for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+    private lazy var nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Введите название трекера"
+        textField.textAlignment = .left
+        textField.layer.masksToBounds = true
+        textField.layer.cornerRadius = 16
+        textField.backgroundColor = .ypBackground
+        textField.rightViewMode = .always
+        textField.translatesAutoresizingMaskIntoConstraints = false
         
-        return cancelButton
+        let leftIndent = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
+        textField.leftView = leftIndent
+        textField.leftViewMode = .always
+        
+        let rightIndent = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
+        textField.rightView = rightIndent
+        textField.rightViewMode = .always
+        
+        return textField
     }()
     
-    private lazy var createButton: UIButton = {
-        let createButton = UIButton(type: .custom)
-        createButton.translatesAutoresizingMaskIntoConstraints = false
-        createButton.setTitleColor(.ypWhite, for: .normal)
-        createButton.backgroundColor = .ypGray
-        createButton.layer.cornerRadius = 16
-        createButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        createButton.setTitle("Создать", for: .normal)
-        createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+    private lazy var limitMessage: UILabel = {
+        let limit = UILabel()
+        limit.text = "Ограничение 38 символов"
+        limit.textColor = .ypRed
+        limit.textAlignment = .center
+        limit.font = .systemFont(ofSize: 17, weight: .regular)
+        limit.translatesAutoresizingMaskIntoConstraints = false
         
-        return createButton
+        return limit
+    }()
+    
+    private lazy var stackContent: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stack
     }()
     
     private lazy var stackButtons: UIStackView = {
@@ -100,146 +119,256 @@ final class CreateHabitViewController: UIViewController {
         return stack
     }()
     
-    private lazy var habitTableView: UITableView = {
-        let habitTableView = UITableView()
-        habitTableView.translatesAutoresizingMaskIntoConstraints = false
-        habitTableView.delegate = self
-        habitTableView.dataSource = self
-        habitTableView.register(CreateHabbitTableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        habitTableView.separatorStyle = .none
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 75
+        tableView.estimatedRowHeight = 75
+        tableView.layer.cornerRadius = 16
+        tableView.showsVerticalScrollIndicator = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CreateHabbitTableViewCell.self,
+                           forCellReuseIdentifier: CreateHabbitTableViewCell.cellID
+        )
         
-        return habitTableView
+        return tableView
     }()
     
-    // MARK: - Overrides Methods
+    private lazy var creationButton: UIButton = {
+        let creation = UIButton()
+        creation.setTitle("Создать", for: .normal)
+        creation.backgroundColor = .ypGray
+        creation.layer.cornerRadius = 16
+        creation.translatesAutoresizingMaskIntoConstraints = false
+        creation.addTarget(self,
+                           action: #selector(createButtonTapped),
+                           for: .touchUpInside
+        )
+        return creation
+    }()
+    
+    private lazy var cancelButton: UIButton = {
+        let cancel = UIButton()
+        cancel.setTitle("Отменить", for: .normal)
+        cancel.setTitleColor(.red, for: .normal)
+        cancel.backgroundColor = .ypWhite
+        cancel.layer.borderWidth = 1
+        cancel.layer.cornerRadius = 16
+        cancel.layer.borderColor = UIColor.ypRed.cgColor
+        cancel.translatesAutoresizingMaskIntoConstraints = false
+        cancel.addTarget(self,
+                         action: #selector(cancelButtonTapped),
+                         for: .touchUpInside
+        )
+        return cancel
+    }()
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .ypWhite
+        setConstraint()
+        setSpacing()
+        setLimitSpacing()
         
-        addTrackerName.delegate = self
+        limitMessage.isHidden = true
+        nameTextField.delegate = self
         
+        changeButtonColor()
+    }
+    
+    private func changeButtonColor() {
+      
+        let isNameFieldNotEmpty = !(nameTextField.text?.isEmpty ?? true)
+        let shouldEnableButton: Bool
         
-        view.addSubviews([header, addTrackerName, stackButtons, habitTableView])
-        habitTableView.layer.cornerRadius = 16
-        [cancelButton, createButton].forEach { stackButtons.addArrangedSubview($0)}
+        if isIrregularEvent {
+            
+            shouldEnableButton = isNameFieldNotEmpty
+        } else {
+           
+            shouldEnableButton = isNameFieldNotEmpty && !selectedWeekDays.isEmpty
+        }
+        
+        if shouldEnableButton {
+            creationButton.isEnabled = true
+            creationButton.backgroundColor = .ypBlack
+        } else {
+            creationButton.isEnabled = false
+            creationButton.backgroundColor = .ypGray
+        }
+    }
+    
+    private func setSpacing() {
+        stackContent.setCustomSpacing(38, after: habitLabel)
+        stackContent.setCustomSpacing(24, after: nameTextField)
+        stackContent.setCustomSpacing(508, after: tableView)
+        
+        stackContent.isLayoutMarginsRelativeArrangement = true
+        stackContent.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        stackButtons.layoutMargins = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
+    }
+    
+    private func setLimitSpacing() {
+        let isMessageHidden = limitMessage.isHidden
+        
+        let spacingAfterTextField: CGFloat = isMessageHidden ? 8 : 24
+        let spacingAfterLimitMessage: CGFloat = isMessageHidden ? 8 : 32
+        
+        stackContent.setCustomSpacing(spacingAfterTextField, after: nameTextField)
+        stackContent.setCustomSpacing(spacingAfterLimitMessage, after: limitMessage)
+    }
+    
+    private func setConstraint() {
+        view.addSubview(scrollView)
+        view.addSubview(stackButtons)
+        scrollView.addSubview(stackContent)
+        
+        [habitLabel,
+         nameTextField,
+         limitMessage,
+         tableView
+        ].forEach {
+            stackContent.addArrangedSubview($0)
+        }
+        
+        [cancelButton,
+         creationButton
+        ].forEach {
+            stackButtons.addArrangedSubview($0)
+        }
+        
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: stackButtons.topAnchor),
             
-            header.topAnchor.constraint(equalTo: view.topAnchor, constant: 26),
-            header.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackContent.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackContent.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            stackContent.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackContent.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             
-            addTrackerName.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 38),
-            addTrackerName.centerXAnchor.constraint(equalTo: header.centerXAnchor),
-            addTrackerName.heightAnchor.constraint(equalToConstant: 75),
-            addTrackerName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            addTrackerName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackContent.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            habitLabel.topAnchor.constraint(equalTo: stackContent.topAnchor, constant: 27),
             
-            habitTableView.topAnchor.constraint(equalTo: addTrackerName.bottomAnchor, constant: 24),
-            habitTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            habitTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            habitTableView.heightAnchor.constraint(equalToConstant: 149),
+            habitLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            nameTextField.heightAnchor.constraint(equalToConstant: 75),
+            limitMessage.heightAnchor.constraint(equalToConstant: 22),
+            tableView.heightAnchor.constraint(equalToConstant: 150),
             
             stackButtons.heightAnchor.constraint(equalToConstant: 60),
             stackButtons.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             stackButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackButtons.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-            
         ])
     }
     
-    // MARK: - Public Methods
-    @objc
-    func cancelButtonTapped() {
-        dismiss(animated: true)
+    // MARK: - Action
+    
+    @objc private func createButtonTapped() {
+        let habitName = nameTextField.text ?? ""
+        
+        //задаём случайный цвет и случайный эмодзи
+        let randomNumber = Int.random(in: 1...18)
+        let randomColor = colors[randomNumber - 1]
+        let randomEmoji = emojis[randomNumber - 1]
+        
+        let newHabit = Tracker(
+            id: UUID(),
+            title: habitName,
+            color: randomColor,
+            emoji: randomEmoji,
+            schedule: selectedWeekDays
+        )
+        
+        delegate?.didCreateHabit(newHabit)
+        dismiss(animated: true, completion: nil)
     }
     
-    @objc
-    func createButtonTapped() {
-        guard let trackerName = addTrackerName.text, !trackerName.isEmpty else {
-            return
+    @objc private func cancelButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension CreateHabitViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return isIrregularEvent ? 1 : 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CreateHabbitTableViewCell.cellID,
+            for: indexPath) as? CreateHabbitTableViewCell else {
+            assertionFailure("Could not cast to CreateHabitCell")
+            return UITableViewCell()
         }
-        let newTracker = Tracker(id: UUID(),
-                                 title: trackerName,
-                                 color: colors[Int.random(in: 0..<self.colors.count)],
-                                 emoji: emojies[Int.random(in: 0..<self.emojies.count)],
-                                 schedule: self.selectedDays)
-        trackersVC?.addTracker(tracker: newTracker)
-        trackersVC?.reload()
-        self.view.window?.rootViewController?.dismiss(animated: true)
-    }
-    
-    func saveDay(indicies: [Int]) {
-        for index in indicies {
-            self.selectedDays.append(WeekDay.allCases[index])
+        
+        let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        
+        if indexPath.row == 0 {
+            cell.configureCell(with: "Категория", subtitle: "По умолчанию", isLastCell: isLastCell)
+        } else if indexPath.row == 1 {
+            cell.configureCell(with: "Расписание", subtitle: "", isLastCell: isLastCell)
         }
+        
+        if isLastCell {
+            cell.hideSeparator()
+            cell.layer.cornerRadius = 16
+            cell.layer.masksToBounds = true
+            cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else {
+            cell.showSeparator()
+            cell.layer.cornerRadius = 0
+            cell.layer.maskedCorners = []
+        }
+        
+        return cell
     }
-    // MARK: - Private Methods
-    
-    
-    
 }
 
 // MARK: - UITextFieldDelegate
 extension CreateHabitViewController: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text?.isEmpty ?? false {
-            createButton.isEnabled = false
-            createButton.backgroundColor = .ypGray
-        } else {
-            createButton.isEnabled = true
-            createButton.backgroundColor = .ypBlack
-        }
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        
+        limitMessage.isHidden = !(updatedText.count > 38)
+        changeButtonColor()
+        return updatedText.count <= 38
+    }
 }
 
-//MARK: - UITableViewDelegate
-extension CreateHabitViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
-    }
-    
+// MARK: - UITableViewDelegate
+extension CreateHabitViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
             let scheduleVC = ScheduleViewController()
             scheduleVC.modalPresentationStyle = .pageSheet
-            
-            self.present(scheduleVC, animated: true)
-
+            scheduleVC.delegate = self
+            self.present(scheduleVC, animated: true, completion: nil)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let separatorInset: CGFloat = 16
-        let separatorWidth = tableView.bounds.width - separatorInset * 2
-        let separatorHeight: CGFloat = 1.0
-        let separatorX = separatorInset
-        let separatorY = cell.frame.height - separatorHeight
-        let separatorView = UIView(frame: CGRect(x: separatorX, y: separatorY, width: separatorWidth, height: separatorHeight))
-        separatorView.backgroundColor = .ypGray
-        cell.addSubview(separatorView)
     }
 }
 
-//MARK: - UITableViewDataSource
-extension CreateHabitViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as? CreateHabbitTableViewCell else { return UITableViewCell() }
-        if indexPath.row == 0 {
-            cell.update(with: "Категория")
-        } else if indexPath.row == 1 {
-            cell.update(with: "Расписание")
+extension CreateHabitViewController: ScheduleViewControllerDelegate {
+    func didUpdateSchedule(selectedDays: [WeekDay], displayText: String) {
+        self.selectedWeekDays = selectedDays
+        
+        let indexPath = IndexPath(row: 1, section: 0)
+        if let cell = tableView.cellForRow(at: indexPath) as? CreateHabbitTableViewCell {
+            cell.subtitleLabel.text = displayText.isEmpty ? "" : displayText
         }
-        return cell
+        changeButtonColor()
     }
-    
 }

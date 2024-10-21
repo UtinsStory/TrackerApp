@@ -6,17 +6,28 @@
 //
 import Foundation
 
+private let calendar = Calendar(identifier: .gregorian)
+
 enum WeekDay: Int, CaseIterable {
-    case monday = 2
-    case tuesday = 3
-    case wednesday = 4
-    case thursday = 5
-    case friday = 6
-    case saturday = 7
-    case sunday = 1
     
-    var name: String {
+    case monday = 1, tuesday, wednesday, thursday, friday, saturday, sunday
+    
+    static func from(date: Date) -> WeekDay? {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.firstWeekday = 2 // Начало недели с понедельника
+        let components = calendar.dateComponents([.weekday], from: date)
+        guard let dayNum = components.weekday else {
+            print("Не удалось определить день недели")
+            return nil
+        }
+        // Смещение, чтобы соответствовать enum WeekDay
+        return WeekDay(rawValue: dayNum == 1 ? 7 : dayNum - 1)
+    }
+    
+    func asText() -> String {
         switch self {
+        case .sunday:
+            return "Воскресенье"
         case .monday:
             return "Понедельник"
         case .tuesday:
@@ -29,8 +40,25 @@ enum WeekDay: Int, CaseIterable {
             return "Пятница"
         case .saturday:
             return "Суббота"
+        }
+    }
+    
+    func asShortText() -> String {
+        switch self {
         case .sunday:
-            return "Воскресенье"
+            return "Вс"
+        case .monday:
+            return "Пн"
+        case .tuesday:
+            return "Вт"
+        case .wednesday:
+            return "Ср"
+        case .thursday:
+            return "Чт"
+        case .friday:
+            return "Пт"
+        case .saturday:
+            return "Сб"
         }
     }
 }
