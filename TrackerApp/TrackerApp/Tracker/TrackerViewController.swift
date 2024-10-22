@@ -12,7 +12,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     private let placeholderNoFilterResults = PlaceholderNoFilterResultsView()
 
     private var collectionView: UICollectionView!
-    private var currentDate: Date = Date()
+    private var currentDate = Date()
     private var categories: [TrackerCategory] = []
     private var filteredCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
@@ -40,6 +40,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         setTrackersCollectionView()
         view.backgroundColor = .ypWhite
         setNavigationBar()
@@ -95,15 +96,18 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         datePicker.locale = dateFormatter.locale
         datePicker.calendar = dateFormatter.calendar
 
-        let currentDate = Date()
+        let date = Date()
         let calendar = Calendar(identifier: .gregorian)
         var dateComponents = DateComponents()
         dateComponents.year = -100
-        let maxDate = calendar.date(byAdding: dateComponents, to: currentDate)
+        let maxDate = calendar.date(byAdding: dateComponents, to: date)
         dateComponents.year = 100
-        let minDate = calendar.date(byAdding: dateComponents, to: currentDate)
+        let minDate = calendar.date(byAdding: dateComponents, to: date)
         datePicker.minimumDate = maxDate
         datePicker.maximumDate = minDate
+        
+        currentDate = datePicker.date
+        print("Текущее значение currentDate: \(dateFormatter.string(from: currentDate))")
 
         let widthConstraint = NSLayoutConstraint(
             item: datePicker,
@@ -189,6 +193,13 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         print("День недели для даты \(datePicker.date): \(weekday?.asText() ?? "нет данных")")
         updateDateLabelTitle(with: datePicker.date)
         reloadFilteredCategories(text: searchBar.text, date: datePicker.date)
+        
+        currentDate = datePicker.date
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yy"
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        print("Текущее значение currentDate: \(dateFormatter.string(from: currentDate))")
     }
 
     private func formattedDate(from date: Date) -> String {
@@ -206,7 +217,6 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         let filterText = (text ?? "").lowercased()
         let filterWeekday = WeekDay.from(date: date)
 
-        // Фильтрация трекеров по тексту
         let textFilteredCategories = categories.compactMap { category -> TrackerCategory? in
             let filteredTrackers = category.trackers.filter { tracker in
                 filterText.isEmpty || tracker.title.lowercased().contains(filterText)
@@ -294,7 +304,9 @@ extension TrackerViewController: UICollectionViewDataSource {
         return filteredCategories.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: TrackerCVHeader.headerIdentifier,
@@ -362,15 +374,17 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard let header = self.collectionView.dequeueReusableSupplementaryView(
-            ofKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: TrackerCVHeader.headerIdentifier,
-            for: IndexPath(item: 0, section: section)
-        ) as? TrackerCVHeader else {
-            return CGSize(width: collectionView.frame.width, height: 0)
-        }
 
-        header.titleLabel.text = filteredCategories[section].header
+        let header: UICollectionReusableView
+        if #available(iOS 18.0, *) {
+            return CGSize(width: collectionView.frame.width, height: 0)
+        } else {
+            header = self.collectionView.dequeueReusableSupplementaryView(
+                        ofKind: UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: TrackerCVHeader.headerIdentifier,
+                        for: IndexPath(item: 0, section: section)
+                    ) as! TrackerCVHeader
+        }
 
         let size = header.systemLayoutSizeFitting(CGSize(
             width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height),

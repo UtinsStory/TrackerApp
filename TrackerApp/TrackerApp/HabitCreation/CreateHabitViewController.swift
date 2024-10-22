@@ -168,6 +168,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         view.backgroundColor = .ypWhite
         setConstraint()
         setSpacing()

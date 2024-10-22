@@ -31,6 +31,7 @@
 		BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2232CC2762F00ECAA6F /* GeometricParameters.swift */; };
 		BFDAE2272CC6547100ECAA6F /* TrackerFilterPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2262CC6545A00ECAA6F /* TrackerFilterPlaceholder.swift */; };
 		BFDAE2292CC654D800ECAA6F /* TrackerPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2282CC654D000ECAA6F /* TrackerPlaceholderView.swift */; };
+		BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		BFDAE2232CC2762F00ECAA6F /* GeometricParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParameters.swift; sourceTree = "<group>"; };
 		BFDAE2262CC6545A00ECAA6F /* TrackerFilterPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFilterPlaceholder.swift; sourceTree = "<group>"; };
 		BFDAE2282CC654D000ECAA6F /* TrackerPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPlaceholderView.swift; sourceTree = "<group>"; };
+		BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewContoller+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +206,7 @@
 		BFDAE2222CC2762300ECAA6F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */,
 				BFDAE2282CC654D000ECAA6F /* TrackerPlaceholderView.swift */,
 				BFDAE2262CC6545A00ECAA6F /* TrackerFilterPlaceholder.swift */,
 				BFDAE2232CC2762F00ECAA6F /* GeometricParameters.swift */,
@@ -351,6 +354,7 @@
 			files = (
 				BFB4255D2CAAB0A400CA4BAF /* Tracker.swift in Sources */,
 				BFB4255E2CAAB0A400CA4BAF /* TrackerCategory.swift in Sources */,
+				BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */,
 				BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */,
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */,
