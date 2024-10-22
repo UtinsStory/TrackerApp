@@ -376,14 +376,13 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         let header: UICollectionReusableView
+        let indexPath = IndexPath(row: .zero, section: section)
         if #available(iOS 18.0, *) {
-            return CGSize(width: collectionView.frame.width, height: 0)
+            return CGSize(width: collectionView.bounds.width, height: 18)
         } else {
-            header = self.collectionView.dequeueReusableSupplementaryView(
-                        ofKind: UICollectionView.elementKindSectionHeader,
-                        withReuseIdentifier: TrackerCVHeader.headerIdentifier,
-                        for: IndexPath(item: 0, section: section)
-                    ) as! TrackerCVHeader
+            header = self.collectionView(collectionView,
+                                         viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
+                                         at: indexPath)
         }
 
         let size = header.systemLayoutSizeFitting(CGSize(
