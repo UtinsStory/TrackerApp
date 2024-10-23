@@ -32,6 +32,8 @@
 		BFDAE2272CC6547100ECAA6F /* TrackerFilterPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2262CC6545A00ECAA6F /* TrackerFilterPlaceholder.swift */; };
 		BFDAE2292CC654D800ECAA6F /* TrackerPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2282CC654D000ECAA6F /* TrackerPlaceholderView.swift */; };
 		BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */; };
+		BFDAE26E2CC9065000ECAA6F /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */; };
+		BFDAE2702CC9081E00ECAA6F /* ColorSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		BFDAE2262CC6545A00ECAA6F /* TrackerFilterPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFilterPlaceholder.swift; sourceTree = "<group>"; };
 		BFDAE2282CC654D000ECAA6F /* TrackerPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPlaceholderView.swift; sourceTree = "<group>"; };
 		BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewContoller+Extensions.swift"; sourceTree = "<group>"; };
+		BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +192,8 @@
 		BFB425962CB51DF800CA4BAF /* HabitCreation */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */,
+				BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */,
 				BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */,
 				BFB4258F2CB2D05600CA4BAF /* CreateHabitViewController.swift */,
 				BFB425932CB3E55000CA4BAF /* ScheduleViewController.swift */,
@@ -359,6 +365,8 @@
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */,
 				BFB4258E2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift in Sources */,
+				BFDAE2702CC9081E00ECAA6F /* ColorSelectionCollectionViewCell.swift in Sources */,
+				BFDAE26E2CC9065000ECAA6F /* EmojiCollectionViewCell.swift in Sources */,
 				BFB4258C2CAFF78600CA4BAF /* TabBarController.swift in Sources */,
 				BFB425942CB3E55400CA4BAF /* ScheduleViewController.swift in Sources */,
 				BFB4255F2CAAB0A400CA4BAF /* TrackerRecord.swift in Sources */,
