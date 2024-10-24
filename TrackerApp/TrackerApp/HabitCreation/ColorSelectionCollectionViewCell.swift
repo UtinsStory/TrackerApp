@@ -39,14 +39,18 @@ final class ColorSelectionCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func selectColor() {
+    func selectColor() {
         layer.borderWidth = 3
         layer.borderColor = colorView.backgroundColor?.withAlphaComponent(0.3).cgColor
         layer.cornerRadius = 8
     }
     
-    private func deselectColor() {
+    func deselectColor() {
         layer.borderWidth = 0
+    }
+    
+    func setColor(_ color: UIColor) {
+        colorView.backgroundColor = color
     }
     
 }

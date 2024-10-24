@@ -34,6 +34,7 @@
 		BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */; };
 		BFDAE26E2CC9065000ECAA6F /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */; };
 		BFDAE2702CC9081E00ECAA6F /* ColorSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */; };
+		BFDAE2722CCA4E6A00ECAA6F /* TrackerCreationCVHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2712CCA4E6200ECAA6F /* TrackerCreationCVHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		BFDAE22A2CC79D6600ECAA6F /* UIViewContoller+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewContoller+Extensions.swift"; sourceTree = "<group>"; };
 		BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		BFDAE2712CCA4E6200ECAA6F /* TrackerCreationCVHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCreationCVHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 		BFB425962CB51DF800CA4BAF /* HabitCreation */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE2712CCA4E6200ECAA6F /* TrackerCreationCVHeader.swift */,
 				BFDAE26F2CC9081B00ECAA6F /* ColorSelectionCollectionViewCell.swift */,
 				BFDAE26D2CC9064C00ECAA6F /* EmojiCollectionViewCell.swift */,
 				BFB425912CB3E13A00CA4BAF /* CreateHabbitTableViewCell.swift */,
@@ -375,6 +378,7 @@
 				BFB425612CAAB0A400CA4BAF /* SceneDelegate.swift in Sources */,
 				BFB425622CAAB0A400CA4BAF /* StatisticsViewController.swift in Sources */,
 				BFDAE2212CB7DA4400ECAA6F /* TrackerCVHeader.swift in Sources */,
+				BFDAE2722CCA4E6A00ECAA6F /* TrackerCreationCVHeader.swift in Sources */,
 				BFB425902CB2D05600CA4BAF /* CreateHabitViewController.swift in Sources */,
 				BFB425632CAAB0A400CA4BAF /* AddTrackerViewController.swift in Sources */,
 				BFDAE2292CC654D800ECAA6F /* TrackerPlaceholderView.swift in Sources */,

@@ -50,26 +50,6 @@ final class CreateHabbitTableViewCell: UITableViewCell {
             return view
         }()
         
-    private var emojiCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(EmojiCollectionViewCell.self,
-                                forCellWithReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier)
-        collectionView.backgroundColor = .ypWhite
-        
-        return collectionView
-    }()
-    
-    private var colorSelectionCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(ColorSelectionCollectionViewCell.self,
-                                forCellWithReuseIdentifier: ColorSelectionCollectionViewCell.reuseIdentifier)
-    }
         // MARK: - Initializers
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -156,3 +136,4 @@ extension CreateHabbitTableViewCell: UITableViewDelegate {
             }
         }
     }
+
