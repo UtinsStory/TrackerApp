@@ -14,13 +14,12 @@ enum WeekDay: Int, CaseIterable {
     
     static func from(date: Date) -> WeekDay? {
         var calendar = Calendar(identifier: .gregorian)
-        calendar.firstWeekday = 2 // Начало недели с понедельника
+        calendar.firstWeekday = 2
         let components = calendar.dateComponents([.weekday], from: date)
         guard let dayNum = components.weekday else {
             print("Не удалось определить день недели")
             return nil
         }
-        // Смещение, чтобы соответствовать enum WeekDay
         return WeekDay(rawValue: dayNum == 1 ? 7 : dayNum - 1)
     }
     

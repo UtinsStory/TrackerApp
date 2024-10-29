@@ -403,9 +403,9 @@ extension TrackerViewController: TrackersCellDelegate {
             return
         }
 
-        let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
-        completedTrackers.append(trackerRecord)
-        completedTrackerIDs.insert(id)
+//        let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
+//        completedTrackers.append(trackerRecord)
+//        completedTrackerIDs.insert(id)
 
         if let tracker = categories.flatMap({ $0.trackers }).first(where: { $0.id == id }), tracker.schedule?.isEmpty ?? true {
             completedIrregularEvents.insert(id)

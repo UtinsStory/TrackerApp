@@ -10,4 +10,9 @@ import Foundation
 struct TrackerRecord {
     let id: UUID
     let date: Date
+    
+    init(date: Date) {
+        self.id = UUID()
+        self.date = date
+    }
 }

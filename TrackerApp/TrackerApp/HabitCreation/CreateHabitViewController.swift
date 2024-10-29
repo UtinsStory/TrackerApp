@@ -41,7 +41,8 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
                                      .ypColorSelection18]
     
     private let emojis: [String] = [
-        "🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"
+        "🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶",
+        "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"
     ]
     
     private var selectedWeekDays: [WeekDay] = []
@@ -337,11 +338,15 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
         let randomColor = colors[randomNumber - 1]
         let randomEmoji = emojis[randomNumber - 1]
         
+        let selectedColorHex = selectedColor?.toHexString() ?? randomColor.toHexString()
+        let selectedEmoji = self.selectedEmoji ?? randomEmoji
+
+        
         let newHabit = Tracker(
             id: UUID(),
             title: habitName,
-            color: selectedColor ?? randomColor,
-            emoji: selectedEmoji ?? randomEmoji,
+            color: selectedColorHex,
+            emoji: selectedEmoji,
             schedule: selectedWeekDays
         )
         

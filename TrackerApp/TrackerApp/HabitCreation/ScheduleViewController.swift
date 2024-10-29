@@ -165,7 +165,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75.0
+        return 75
     }
     
     private func createButton(title: String, action: Selector) -> UIButton {
