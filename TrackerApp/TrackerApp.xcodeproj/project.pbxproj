@@ -40,6 +40,7 @@
 		BFDAE2AB2CCA85CB00ECAA6F /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2AA2CCA85C300ECAA6F /* TrackerCategoryStore.swift */; };
 		BFDAE2AD2CCA85D900ECAA6F /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2AC2CCA85CF00ECAA6F /* TrackerRecordStore.swift */; };
 		BFDAE2AF2CD0E68800ECAA6F /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2AE2CD0E68200ECAA6F /* UIColor+Extension.swift */; };
+		BFDAE2B12CD8D4C200ECAA6F /* CoreDataMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2B02CD8D4BC00ECAA6F /* CoreDataMain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		BFDAE2AA2CCA85C300ECAA6F /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		BFDAE2AC2CCA85CF00ECAA6F /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		BFDAE2AE2CD0E68200ECAA6F /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		BFDAE2B02CD8D4BC00ECAA6F /* CoreDataMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +241,7 @@
 		BFDAE2A02CCA763E00ECAA6F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				BFDAE2B02CD8D4BC00ECAA6F /* CoreDataMain.swift */,
 				BFDAE2AC2CCA85CF00ECAA6F /* TrackerRecordStore.swift */,
 				BFDAE2AA2CCA85C300ECAA6F /* TrackerCategoryStore.swift */,
 				BFDAE2A82CCA85B600ECAA6F /* TrackerStore.swift */,
@@ -388,6 +391,7 @@
 				BFB4255E2CAAB0A400CA4BAF /* TrackerCategory.swift in Sources */,
 				BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */,
 				BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */,
+				BFDAE2B12CD8D4C200ECAA6F /* CoreDataMain.swift in Sources */,
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */,
 				BFB4258E2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift in Sources */,

@@ -17,7 +17,7 @@ final class TrackerStore: NSObject {
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>!
     weak var delegate: TrackerStoreDelegate?
     
-    init(managedObjectContext: NSManagedObjectContext) {
+    init(managedObjectContext: NSManagedObjectContext = CoreDataMain.shared.persistentContainer.viewContext) {
         self.managedObjectContext = managedObjectContext
         super.init()
         
@@ -25,9 +25,13 @@ final class TrackerStore: NSObject {
     }
     func setupFetchResultsController() {
         let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: managedObjectContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -38,7 +42,7 @@ final class TrackerStore: NSObject {
     }
     
     private func saveContext() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = CoreDataMain.shared.persistentContainer.viewContext
         if context.hasChanges {
             context.registeredObjects.forEach { managedObject in
                 if managedObject.hasChanges {

@@ -14,7 +14,7 @@ protocol HabitTableViewDelegate: AnyObject {
 
 // MARK: - HabitCreationDelegate
 protocol HabitCreationDelegate: AnyObject {
-    func didCreateHabit(_ habit: Tracker)
+    func didCreateHabit()
 }
 
 final class CreateHabitViewController: UIViewController, UITableViewDelegate {
@@ -342,15 +342,12 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
         let selectedEmoji = self.selectedEmoji ?? randomEmoji
 
         
-        let newHabit = Tracker(
-            id: UUID(),
-            title: habitName,
-            color: selectedColorHex,
-            emoji: selectedEmoji,
-            schedule: selectedWeekDays
-        )
+        CoreDataMain.shared.trackerStore.createTracker(title: habitName,
+                                                       color: selectedColorHex,
+                                                       emoji: selectedEmoji,
+                                                       schedule: selectedWeekDays)
         
-        delegate?.didCreateHabit(newHabit)
+        delegate?.didCreateHabit()
         dismiss(animated: true, completion: nil)
     }
     
@@ -438,7 +435,7 @@ extension CreateHabitViewController: ScheduleViewControllerDelegate {
     }
 }
 
-//MARK: - UICollectionViewDelegate
+//MARK: - UICollectionViewDelegateFlowLayout
 extension CreateHabitViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,

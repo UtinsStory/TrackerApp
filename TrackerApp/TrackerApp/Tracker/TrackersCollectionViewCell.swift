@@ -16,7 +16,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     static let cellIdentifier = "TrackerCell"
     var daysCounter = 0
     
-    // Верхний прямоугольник
     let coloredRectangleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -24,25 +23,22 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // Иконка эмодзи
     private lazy var emojiLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
-        label.text = "🍏" // Пример эмодзи яблока
+        label.text = "🍏"
         label.textAlignment = .center
         return label
     }()
     
-    // Задний фон за эмодзи
     let whiteEmojiBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white.withAlphaComponent(0.3)
         return view
     }()
-    
-    // Заголовок в ячейке
+
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +51,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // Фон нижней части ячейки
     let nonColoredRectangleView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -73,7 +68,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    // Круглая кнопка
+    
     private lazy var coloredCircleButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "completeTracker"), for: .normal) // ?
@@ -159,7 +154,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    // добавляем метод configure
     func configure(
         with tracker: Tracker,
         isCompletedToday: Bool,
@@ -172,16 +166,17 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         
         mainLabel.text = tracker.title
         emojiLabel.text = tracker.emoji
-        coloredRectangleView.backgroundColor = tracker.color // Устанавливаем цвет прямо из tracker
-        coloredCircleButton.backgroundColor = coloredRectangleView.backgroundColor
+        if let color = UIColor(hexString: tracker.color) {
+            coloredRectangleView.backgroundColor = color
+            coloredCircleButton.backgroundColor = color
+        }
         
         let wordDay = pluralizeDays(completedDays)
         daysCounterLabel.text = wordDay
         
         let image = isCompletedToday ? doneImage : plusImage
-        coloredCircleButton.setImage(image, for: .normal) // тут закончили с кнопкой
+        coloredCircleButton.setImage(image, for: .normal)
         
-        // Установка прозрачности цвета фона кнопки
         let alphaValue: CGFloat = isCompletedToday ? 0.3 : 1.0
         coloredCircleButton.backgroundColor = coloredCircleButton.backgroundColor?.withAlphaComponent(alphaValue)
     }

@@ -17,7 +17,7 @@ final class TrackerRecordStore: NSObject {
     private let managedObjectContext: NSManagedObjectContext
     private var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData>!
     
-    init(managedObjectContext: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) {
+    init(managedObjectContext: NSManagedObjectContext = CoreDataMain.shared.persistentContainer.viewContext) {
         self.managedObjectContext = managedObjectContext
         super.init()
         
@@ -25,7 +25,7 @@ final class TrackerRecordStore: NSObject {
     }
     func setupFetchResultsController() {
         let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerRecordCoreData.date, ascending: true)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
