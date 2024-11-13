@@ -41,6 +41,8 @@
 		BFDAE2AD2CCA85D900ECAA6F /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2AC2CCA85CF00ECAA6F /* TrackerRecordStore.swift */; };
 		BFDAE2AF2CD0E68800ECAA6F /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2AE2CD0E68200ECAA6F /* UIColor+Extension.swift */; };
 		BFDAE2B12CD8D4C200ECAA6F /* CoreDataMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE2B02CD8D4BC00ECAA6F /* CoreDataMain.swift */; };
+		BFDAE3252CE4B68B00ECAA6F /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3242CE4B68B00ECAA6F /* OnboardingPageViewController.swift */; };
+		BFDAE3272CE4B69E00ECAA6F /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3262CE4B69E00ECAA6F /* OnboardingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		BFDAE2AC2CCA85CF00ECAA6F /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		BFDAE2AE2CD0E68200ECAA6F /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BFDAE2B02CD8D4BC00ECAA6F /* CoreDataMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMain.swift; sourceTree = "<group>"; };
+		BFDAE3242CE4B68B00ECAA6F /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		BFDAE3262CE4B69E00ECAA6F /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,7 @@
 				BFB425502CAAB0A400CA4BAF /* AppDelegate.swift */,
 				BFB425572CAAB0A400CA4BAF /* SceneDelegate.swift */,
 				BFDAE2A02CCA763E00ECAA6F /* CoreData */,
+				BFDAE3232CE4B61000ECAA6F /* Onboarding */,
 				BFB425972CB51E2700CA4BAF /* Statistics */,
 				BFB425952CB51DC600CA4BAF /* Tracker */,
 				BFB425962CB51DF800CA4BAF /* HabitCreation */,
@@ -248,6 +253,15 @@
 				BFDAE2A32CCA76B800ECAA6F /* TrackerModel.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		BFDAE3232CE4B61000ECAA6F /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BFDAE3242CE4B68B00ECAA6F /* OnboardingPageViewController.swift */,
+				BFDAE3262CE4B69E00ECAA6F /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,12 +402,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB4255D2CAAB0A400CA4BAF /* Tracker.swift in Sources */,
+				BFDAE3272CE4B69E00ECAA6F /* OnboardingViewController.swift in Sources */,
 				BFB4255E2CAAB0A400CA4BAF /* TrackerCategory.swift in Sources */,
 				BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */,
 				BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */,
 				BFDAE2B12CD8D4C200ECAA6F /* CoreDataMain.swift in Sources */,
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */,
+				BFDAE3252CE4B68B00ECAA6F /* OnboardingPageViewController.swift in Sources */,
 				BFB4258E2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift in Sources */,
 				BFDAE2AF2CD0E68800ECAA6F /* UIColor+Extension.swift in Sources */,
 				BFDAE2702CC9081E00ECAA6F /* ColorSelectionCollectionViewCell.swift in Sources */,
