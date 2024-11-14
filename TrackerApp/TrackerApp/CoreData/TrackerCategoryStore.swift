@@ -22,11 +22,41 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         
         setupFetchResultsController()
     }
+    
+    func fetchCategory(by header: String) -> TrackerCategoryCoreData? {
+            let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "header == %@", header)
+            return try? managedObjectContext.fetch(request).first
+        }
+        
+        func createCategory(header: String) {
+            if fetchCategory(by: header) == nil {
+                let category = TrackerCategoryCoreData(context: managedObjectContext)
+                category.header = header
+                saveContext()
+            }
+        }
+        
+        func fetchCategories() -> [TrackerCategory] {
+            let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+            do {
+                let categoryEntities = try managedObjectContext.fetch(fetchRequest)
+                return categoryEntities.map { TrackerCategory(header: $0.header ?? "", trackers: []) }
+            } catch let error as NSError {
+                print(error.userInfo)
+                return []
+            }
+        }
+    
+    
     func setupFetchResultsController() {
         let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "header", ascending: true)]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                              managedObjectContext: managedObjectContext,
+                                                              sectionNameKeyPath: nil,
+                                                              cacheName: nil)
         fetchedResultsController.delegate = self
         
         do {

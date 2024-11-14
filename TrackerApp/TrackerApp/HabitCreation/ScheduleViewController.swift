@@ -17,6 +17,17 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
     private var switchStates: [Bool] = [false, false, false, false, false, false, false]
     
+    init(selectedDays: [WeekDay]) {
+        super.init(nibName: nil, bundle: nil)
+        for day in selectedDays {
+            switchStates[day.rawValue - 1] = true
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()

@@ -51,6 +51,8 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private var selectedColor: UIColor?
     
+    private var selectedCategory: String = ""
+    
     weak var delegate: HabitCreationDelegate?
     
     var isIrregularEvent: Bool = false
@@ -342,10 +344,13 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
         let selectedEmoji = self.selectedEmoji ?? randomEmoji
 
         
-        CoreDataMain.shared.trackerStore.createTracker(title: habitName,
-                                                       color: selectedColorHex,
-                                                       emoji: selectedEmoji,
-                                                       schedule: selectedWeekDays)
+        CoreDataMain.shared.trackerStore.createTracker(
+            title: habitName,
+            color: selectedColorHex,
+            emoji: selectedEmoji,
+            schedule: selectedWeekDays,
+            categoryTitle: selectedCategory
+        )
         
         delegate?.didCreateHabit()
         dismiss(animated: true, completion: nil)
@@ -374,7 +379,7 @@ extension CreateHabitViewController: UITableViewDataSource {
         let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         
         if indexPath.row == 0 {
-            cell.configureCell(with: "Категория", subtitle: "По умолчанию", isLastCell: isLastCell)
+            cell.configureCell(with: "Категория", subtitle: selectedCategory, isLastCell: isLastCell)
         } else if indexPath.row == 1 {
             cell.configureCell(with: "Расписание", subtitle: "", isLastCell: isLastCell)
         }
@@ -414,8 +419,16 @@ extension CreateHabitViewController: UITextFieldDelegate {
 // MARK: - UITableViewDelegate
 extension CreateHabitViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {
+            let categoryListVC = CategoryListViewController()
+            categoryListVC.delegate = self
+            categoryListVC.modalPresentationStyle = .pageSheet
+            self.present(categoryListVC, animated: true, completion: nil)
+        }
+        
         if indexPath.row == 1 {
-            let scheduleVC = ScheduleViewController()
+            let scheduleVC = ScheduleViewController(selectedDays: selectedWeekDays)
             scheduleVC.modalPresentationStyle = .pageSheet
             scheduleVC.delegate = self
             self.present(scheduleVC, animated: true, completion: nil)
@@ -432,6 +445,18 @@ extension CreateHabitViewController: ScheduleViewControllerDelegate {
             cell.subtitleLabel.text = displayText.isEmpty ? "" : displayText
         }
         changeButtonColor()
+    }
+}
+
+extension CreateHabitViewController: CategoryListViewControllerDelegate {
+    func didSelectCategory(_ category: String) {
+        selectedCategory = category
+        let indexPath = IndexPath(row: 0, section: 0)
+        if let cell = tableView.cellForRow(at: indexPath) as? CreateHabbitTableViewCell {
+            cell.subtitleLabel.text = category
+            
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 

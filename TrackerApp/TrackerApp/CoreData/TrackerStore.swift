@@ -4,7 +4,6 @@
 //
 //  Created by Гена Утин on 24.10.2024.
 //
-import UIKit
 import CoreData
 
 protocol TrackerStoreDelegate: AnyObject {
@@ -69,24 +68,36 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
 }
 
 extension TrackerStore {
-
-    func createTracker(title: String, color: String, emoji: String, schedule: [WeekDay]?) {
+    
+    func createTracker(title: String, color: String, emoji: String, schedule: [WeekDay]?, categoryTitle: String) {
         let newTracker = TrackerCoreData(context: managedObjectContext)
         newTracker.id = UUID()
         newTracker.title = title
         newTracker.color = color
         newTracker.emoji = emoji
         newTracker.schedule = schedule?.map { String($0.rawValue) }.joined(separator: ",")
+        newTracker.creationDate = Date()
         
-
+        let categoryStore = TrackerCategoryStore()
+        var category = categoryStore.fetchCategory(by: categoryTitle)
+        if category == nil {
+            categoryStore.createCategory(header: categoryTitle)
+            category = categoryStore.fetchCategory(by: categoryTitle)
+        }
+        
+        if let category = category {
+            let trackers = category.mutableSetValue(forKey: "trackers")
+            trackers.add(newTracker)
+        }
+        
         saveContext()
         delegate?.trackerStoreDidAddTracker(newTracker)
     }
-
+    
     func fetchTracker(by id: UUID) -> TrackerCoreData? {
         let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-
+        
         do {
             let results = try managedObjectContext.fetch(fetchRequest)
             return results.first
@@ -95,4 +106,22 @@ extension TrackerStore {
             return nil
         }
     }
+    
+    func fetchTrackersGroupedByCategory() -> [TrackerCategory] {
+        let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        fetchRequest.relationshipKeyPathsForPrefetching = ["trackers"]
+        
+        do {
+            let categoryEntities = try managedObjectContext.fetch(fetchRequest)
+            return categoryEntities.map { categoryEntity in
+                let trackers = categoryEntity.trackers?.allObjects as? [TrackerCoreData] ?? []
+                let trackerModels = trackers.map { Tracker(trackerCoreData: $0) }
+                return TrackerCategory(header: categoryEntity.header ?? "Без категории", trackers: trackerModels)
+            }
+        } catch let error as NSError {
+            print("Error fetching categories: \(error), \(error.userInfo)")
+            return []
+        }
+    }
 }
+
