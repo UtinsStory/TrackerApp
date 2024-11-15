@@ -190,7 +190,6 @@ final class CategoryListViewController: UIViewController {
     }
 
     @objc private func addCategoryButtonTapped() {
-        print("Нажали на кнопку")
         let categoryCreationVC = CategoryCreationViewController()
         categoryCreationVC.onCategoryAdded = { [weak self] categoryName in
             self?.viewModel.categories.append(TrackerCategory(header: categoryName, trackers: []))

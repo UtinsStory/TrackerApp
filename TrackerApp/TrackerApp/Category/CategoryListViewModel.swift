@@ -46,6 +46,7 @@ final class CategoryListViewModel {
     }
 
     func selectCategory(at index: Int) {
+        guard categories.count > index else { return }
         selectedCategory = categories[index]
         selectedIndex = IndexPath(row: index, section: 0)
         onCategorySelected?(categories[index].header)

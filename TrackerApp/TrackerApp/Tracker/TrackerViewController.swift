@@ -133,19 +133,6 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         
         guard let fetchedObjects = CoreDataMain.shared.trackerStore.fetchedResultsController.fetchedObjects else { return }
         
-//        let trackers: [Tracker] = fetchedObjects.compactMap { coreDataObject in
-//            guard let id = coreDataObject.id,
-//                  let title = coreDataObject.title,
-//                  let color = coreDataObject.color,
-//                  let emoji = coreDataObject.emoji else { return nil}
-//            return Tracker(id: id,
-//                           title: title,
-//                           color: color,
-//                           emoji: emoji,
-//                           schedule: Tracker.deserializeSchedule(from: coreDataObject.schedule)
-//            )
-//        }
-       
         trackerCreationDates = fetchedObjects.reduce(into: [:]) { dict, tracker in
             if let id = tracker.id, let creationDate = tracker.creationDate {
                 dict[id] = creationDate
