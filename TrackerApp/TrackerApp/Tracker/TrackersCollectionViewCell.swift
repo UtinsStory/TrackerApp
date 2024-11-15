@@ -64,7 +64,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "\(daysCounter) день"
+        label.text = "\(daysCounter)"
         return label
     }()
     
@@ -186,11 +186,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         let remainder100 = count % 100
         
         if remainder10 == 1 && remainder100 != 11 {
-            return "\(count) день"
+            return "\(count) \(LocalizationHelper.localizedString("day"))"
         } else if remainder10 >= 2 && remainder100 <= 4 && (remainder100 < 10 || remainder100 >= 20) {
-            return "\(count) дня"
+            return "\(count) \(LocalizationHelper.localizedString("days"))"
         } else {
-            return "\(count) дней"
+            return "\(count) \(LocalizationHelper.localizedString("days"))"
         }
     }
     

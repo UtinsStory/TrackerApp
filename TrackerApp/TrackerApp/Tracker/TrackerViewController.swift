@@ -58,7 +58,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     func setNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-        title = "Трекеры"
+        title = LocalizationHelper.localizedString("trackers")
 
         let addButton = UIButton(type: .custom)
         if let iconImage = UIImage(named: "plus")?.withRenderingMode(.alwaysOriginal) {
@@ -186,7 +186,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
-        searchBar.placeholder = "Поиск"
+        searchBar.placeholder = LocalizationHelper.localizedString("search")
         searchBar.searchBarStyle = .minimal
         searchBar.translatesAutoresizingMaskIntoConstraints = false
 

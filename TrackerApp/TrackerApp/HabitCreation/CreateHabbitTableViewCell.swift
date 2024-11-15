@@ -130,7 +130,7 @@ extension CreateHabbitTableViewCell: UITableViewDelegate {
             if indexPath.row == 1 {
                 if let selectedCell = tableView.cellForRow(at: indexPath) as? CreateHabbitTableViewCell,
                    let titleText = selectedCell.titleLabel.text,
-                   titleText == "Расписание" {
+                   titleText == LocalizationHelper.localizedString("schedule") {
                     delegate?.didSelectTimetable()
                 }
             }

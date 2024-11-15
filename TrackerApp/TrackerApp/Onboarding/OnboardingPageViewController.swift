@@ -24,7 +24,7 @@ final class OnboardingPageViewController: UIPageViewController {
     
     lazy var continueButton: UIButton = {
         let continueButton = UIButton(type: .system)
-        continueButton.setTitle("Вот это технологии!", for: .normal)
+        continueButton.setTitle(LocalizationHelper.localizedString("onboardingButtonText"), for: .normal)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         continueButton.setTitleColor(.ypWhite, for: .normal)
         
@@ -130,9 +130,9 @@ enum OnboardingPage: Int, CaseIterable {
     var title: String {
         switch self {
         case .pageOne:
-            return "Отслеживайте только то, что хотите"
+            return LocalizationHelper.localizedString("onboardingText1")
         case .pageTwo:
-            return "Даже если это не литры воды и йога"
+            return LocalizationHelper.localizedString("onboardingText2")
         }
     }
     

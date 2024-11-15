@@ -14,7 +14,15 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 final class ScheduleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     weak var delegate: ScheduleViewControllerDelegate?
     private let tableView = UITableView()
-    private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    private let daysOfWeek = [
+        LocalizationHelper.localizedString("monday"),
+        LocalizationHelper.localizedString("tuesday"),
+        LocalizationHelper.localizedString("wednesday"),
+        LocalizationHelper.localizedString("thursday"),
+        LocalizationHelper.localizedString("friday"),
+        LocalizationHelper.localizedString("saturday"),
+        LocalizationHelper.localizedString("sunday")
+    ]
     private var switchStates: [Bool] = [false, false, false, false, false, false, false]
     
     init(selectedDays: [WeekDay]) {
@@ -38,7 +46,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         setLabel()
         setTableView()
         
-        let buttonDone = createButton(title: "Готово", action: #selector(buttonDoneTapped))
+        let buttonDone = createButton(title: LocalizationHelper.localizedString("doneButtonText"), action: #selector(buttonDoneTapped))
         view.addSubview(buttonDone)
         
         NSLayoutConstraint.activate([
@@ -48,36 +56,36 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         ])
     }
     
-    private func isEverydaySelected(_ days: [WeekDay]) -> Bool {
-        return Set(days) == Set(WeekDay.allCases)
-    }
-    
-    private func isWeekdaysSelected(_ days: [WeekDay]) -> Bool {
-        let weekdays: Set<WeekDay> = [.monday, .tuesday, .wednesday, .thursday, .friday]
-        return Set(days) == weekdays
-    }
-    
-    private func isWeekendSelected(_ days: [WeekDay]) -> Bool {
-        let weekend: Set<WeekDay> = [.saturday, .sunday]
-        return Set(days).isSubset(of: weekend)
-    }
-    
-    private func getDisplayText(for days: [WeekDay]) -> String {
-        if isEverydaySelected(days) {
-            return "Каждый день"
-        } else if isWeekdaysSelected(days) {
-            return "Будние дни"
-        } else if isWeekendSelected(days) {
-            return "Выходные дни"
-        } else {
-            return days.map { $0.asShortText() }.joined(separator: ", ")
-        }
-    }
+//    private func isEverydaySelected(_ days: [WeekDay]) -> Bool {
+//        return Set(days) == Set(WeekDay.allCases)
+//    }
+//    
+//    private func isWeekdaysSelected(_ days: [WeekDay]) -> Bool {
+//        let weekdays: Set<WeekDay> = [.monday, .tuesday, .wednesday, .thursday, .friday]
+//        return Set(days) == weekdays
+//    }
+//    
+//    private func isWeekendSelected(_ days: [WeekDay]) -> Bool {
+//        let weekend: Set<WeekDay> = [.saturday, .sunday]
+//        return Set(days).isSubset(of: weekend)
+//    }
+//    
+//    private func getDisplayText(for days: [WeekDay]) -> String {
+//        if isEverydaySelected(days) {
+//            return "Каждый день"
+//        } else if isWeekdaysSelected(days) {
+//            return "Будние дни"
+//        } else if isWeekendSelected(days) {
+//            return "Выходные дни"
+//        } else {
+//            return days.map { $0.asShortText() }.joined(separator: ", ")
+//        }
+//    }
     
     private func updateSchedule() {
         let selectedDays = getSelectedDays()
-        let displayText = getDisplayText(for: selectedDays)
-        delegate?.didUpdateSchedule(selectedDays: selectedDays, displayText: displayText)
+//        let displayText = getDisplayText(for: selectedDays)
+        delegate?.didUpdateSchedule(selectedDays: selectedDays, displayText: selectedDays.displayText)
     }
     
     private func getSelectedDays() -> [WeekDay] {
@@ -88,7 +96,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
     
     private func setLabel() {
         let label = UILabel()
-        label.text = "Расписание"
+        label.text = LocalizationHelper.localizedString("schedule")
         label.textColor = .ypBlack
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)

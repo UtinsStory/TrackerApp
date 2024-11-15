@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  TrackerApp
+
+  Created by Гена Утин on 15.11.2024.
+  
+*/
+//MARK: - Onboarding
+
+"onboardingText1" = "Track only what you want";
+"onboardingText2" = "Even if it's not liters of water and yoga";
+"onboardingButtonText" = "Wow, these are technologies!";
+
+//MARK: - TrackerViewController
+
+"trackers" = "Trackers";
+"search" = "Search";
+"emptyTrackersText" = "What will track?";
+"filtres" = "Filtres";
+"areYouSure" = "Are you sure you want to delete the tracker?";
+"delete" = "Delete";
+"pin" = "Pin";
+"unpin" = "Unpin";
+"edit" = "Edit";
+"nothingFound" = "Nothing found";
+
+//MARK: - AddTrackerViewController
+
+"trackerCreation" = "Create tracker";
+"habit" = "Habit";
+"irregularEvent" = "Irregular event";
+
+//MARK: - CreateHabitViewController
+
+"newHabit" = "New habit";
+"newIrregularEvent" = "New irregular event";
+"enterTrackerName" = "Enter tracker name";
+"category" = "Category";
+"schedule" = "Schedule";
+"emoji" = "Emoji";
+"color" = "Color";
+"cancel" = "Cancel";
+"create" = "Create";
+"save" = "Save";
+"characterLimit" = "38 character limit";
+"editHabit" = "Edit habit";
+
+//MARK: - CategoryCreationViewController
+
+"newCategory" = "New category";
+"enterCategoryName" = "Enter category";
+"doneButtonText" = "Done";
+
+//MARK: - CategoryListViewController
+
+"addCategoryButtonText" = "Add category";
+"noCategoryText" = "Habits and events can be combined by meaning";
+
+//MARK: - ScheduleViewController
+
+"monday" = "Monday";
+"tuesday" = "Tuesday";
+"wednesday" = "Wednesday";
+"thursday" = "Thursday";
+"friday" = "Friday";
+"saturday" = "Saturday";
+"sunday" = "Sunday";
+
+"mondayShort" = "Mon";
+"tuesdayShort" = "Tue";
+"wednesdayShort" = "Wed";
+"thursdayShort" = "Thu";
+"fridayShort" = "Fri";
+"saturdayShort" = "Sat";
+"sundayShort" = "Sun";
+
+"weekdays" = "Weekdays";
+"weekends" = "Weekends";
+"everyday" = "Everyday";
+
+//MARK: - TrackerCollectionViewCell
+
+"day" = "day";
+"days" = "days";
+"daysMany" = "days";
+
+//MARK: - FiltersViewController
+
+"allTrackers" = "All trackers";
+"todayTrackers" = "Today trackers";
+"completedTrackers" = "Completed trackers";
+"uncompletedTrackers" = "Uncompleted trackers";

@@ -68,7 +68,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private lazy var habitLabel: UILabel = {
         let newhabitLabel = UILabel()
-        newhabitLabel.text = isIrregularEvent ? "Новое нерегулярное событие" : "Новая привычка"
+        newhabitLabel.text = isIrregularEvent ? LocalizationHelper.localizedString("newIrregularEvent") : LocalizationHelper.localizedString("newHabit")
         newhabitLabel.textColor = .ypBlack
         newhabitLabel.textAlignment = .center
         newhabitLabel.font = .systemFont(ofSize: 16)
@@ -79,7 +79,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = LocalizationHelper.localizedString("enterTrackerName")
         textField.textAlignment = .left
         textField.layer.masksToBounds = true
         textField.layer.cornerRadius = 16
@@ -100,7 +100,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private lazy var limitMessage: UILabel = {
         let limit = UILabel()
-        limit.text = "Ограничение 38 символов"
+        limit.text = LocalizationHelper.localizedString("characterLimit")
         limit.textColor = .ypRed
         limit.textAlignment = .center
         limit.font = .systemFont(ofSize: 17, weight: .regular)
@@ -147,7 +147,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private lazy var creationButton: UIButton = {
         let creation = UIButton()
-        creation.setTitle("Создать", for: .normal)
+        creation.setTitle(LocalizationHelper.localizedString("create"), for: .normal)
         creation.backgroundColor = .ypGray
         creation.layer.cornerRadius = 16
         creation.translatesAutoresizingMaskIntoConstraints = false
@@ -160,7 +160,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
     
     private lazy var cancelButton: UIButton = {
         let cancel = UIButton()
-        cancel.setTitle("Отменить", for: .normal)
+        cancel.setTitle(LocalizationHelper.localizedString("cancel"), for: .normal)
         cancel.setTitleColor(.red, for: .normal)
         cancel.backgroundColor = .ypWhite
         cancel.layer.borderWidth = 1
@@ -269,6 +269,8 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
         stackContent.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         stackButtons.layoutMargins = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
     }
+    
+    
     
     private func setLimitSpacing() {
         let isMessageHidden = limitMessage.isHidden
@@ -379,9 +381,9 @@ extension CreateHabitViewController: UITableViewDataSource {
         let isLastCell = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         
         if indexPath.row == 0 {
-            cell.configureCell(with: "Категория", subtitle: selectedCategory, isLastCell: isLastCell)
+            cell.configureCell(with: LocalizationHelper.localizedString("category"), subtitle: selectedCategory, isLastCell: isLastCell)
         } else if indexPath.row == 1 {
-            cell.configureCell(with: "Расписание", subtitle: "", isLastCell: isLastCell)
+            cell.configureCell(with: LocalizationHelper.localizedString("schedule"), subtitle: selectedWeekDays.displayText, isLastCell: isLastCell)
         }
         
         if isLastCell {
@@ -556,9 +558,9 @@ extension CreateHabitViewController: UICollectionViewDataSource {
         }
         
         if collectionView == emojiCollectionView {
-            header.setHeaderLabelText("Emoji")
+            header.setHeaderLabelText(LocalizationHelper.localizedString("emoji"))
         } else if collectionView == colorSelectionCollectionView {
-            header.setHeaderLabelText("Цвет")
+            header.setHeaderLabelText(LocalizationHelper.localizedString("color"))
         }
         
         return header

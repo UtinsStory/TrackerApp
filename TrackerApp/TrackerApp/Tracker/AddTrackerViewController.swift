@@ -31,10 +31,10 @@ final class AddTrackerViewController: UIViewController {
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
 
-        let buttonHabbit = createButton(title: "Привычка", action: #selector(habitButtonTaped))
+        let buttonHabbit = createButton(title: LocalizationHelper.localizedString("habit"), action: #selector(habitButtonTaped))
         stackView.addArrangedSubview(buttonHabbit)
  
-        let buttonOneEvent = createButton(title: "Нерегулярное событие", action: #selector(irregularEventButtonTaped))
+        let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregualrEvent"), action: #selector(irregularEventButtonTaped))
         stackView.addArrangedSubview(buttonOneEvent)
         
         NSLayoutConstraint.activate([
@@ -47,17 +47,15 @@ final class AddTrackerViewController: UIViewController {
     
     @objc private func habitButtonTaped() {
         delegate?.showCreateHabit()
-        print("Создали привычку!")
     }
     
     @objc private func irregularEventButtonTaped() {
         delegate?.showCreateIrregularEvent()
-        print("Создали нерегулярное событие!")
     }
     
     private func setLabel() {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = LocalizationHelper.localizedString("trackerCreation")
         label.textColor = .ypBlack
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)

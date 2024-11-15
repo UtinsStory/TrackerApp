@@ -18,7 +18,7 @@ final class CategoryListViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Категория"
+        label.text = LocalizationHelper.localizedString("category")
         label.textColor = .ypBlack
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -44,7 +44,7 @@ final class CategoryListViewController: UIViewController {
 
     private lazy var addCategoryButton: UIButton = {
         let addCategoryButton = UIButton()
-        addCategoryButton.setTitle("Добавить категорию", for: .normal)
+        addCategoryButton.setTitle(LocalizationHelper.localizedString("addCategoryButtonText"), for: .normal)
         addCategoryButton.backgroundColor = .ypBlack
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +112,7 @@ final class CategoryListViewController: UIViewController {
     private func setNoCategory() {
  
         let noResultsLabel = UILabel()
-        let text = "Привычки и события можно\nобъединить по смыслу"
+        let text = LocalizationHelper.localizedString("noCategoryText")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.5
 
@@ -160,7 +160,7 @@ final class CategoryListViewController: UIViewController {
 
     private func removeNoCategory() {
         view.subviews.forEach { view in
-            if let label = view as? UILabel, label.text?.contains("Привычки и события можно\nобъединить по смыслу") == true {
+            if let label = view as? UILabel, label.text?.contains(LocalizationHelper.localizedString("noCategoryText")) == true {
                 view.removeFromSuperview()
             } else if let imageView = view as? UIImageView, imageView.image == UIImage(named: "errorStar") {
                 view.removeFromSuperview()
