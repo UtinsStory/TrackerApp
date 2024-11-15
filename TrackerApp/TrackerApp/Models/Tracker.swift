@@ -21,6 +21,14 @@ struct Tracker {
         self.emoji = emoji
         self.schedule = schedule
     }
+    
+    init(trackerCoreData: TrackerCoreData) {
+        self.id = trackerCoreData.id ?? UUID()
+        self.title = trackerCoreData.title ?? ""
+        self.color = trackerCoreData.color ?? ""
+        self.emoji = trackerCoreData.emoji ?? ""
+        self.schedule = Tracker.deserializeSchedule(from: trackerCoreData.schedule ?? "")
+    }
 
         func serializeSchedule() -> String? {
             guard let schedule = schedule else { return nil }

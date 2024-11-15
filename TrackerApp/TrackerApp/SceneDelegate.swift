@@ -15,9 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarController()
-        window?.makeKeyAndVisible()
         
+        let onboardingIsCompleted = UserDefaults.standard.bool(forKey: "OnboardingIsCompleted")
+        if onboardingIsCompleted {
+            window?.rootViewController = TabBarController()
+        } else {
+            window?.rootViewController = OnboardingPageViewController()
+        }
+        
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -46,7 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        CoreDataMain.shared.saveContext()
     }
 
 

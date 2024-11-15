@@ -8,15 +8,17 @@ import UIKit
 
 final class TrackerViewController: UIViewController, UICollectionViewDelegate {
 
-    
     private let placeholderNoFilterResults = PlaceholderNoFilterResultsView()
 
     private var collectionView: UICollectionView!
     private var currentDate = Date()
+    
     private var categories: [TrackerCategory] = []
     private var filteredCategories: [TrackerCategory] = []
+    
     private var completedTrackers: [TrackerRecord] = []
     private var completedTrackerIDs: Set<UUID> = []
+    
     private var completedIrregularEvents: Set<UUID> = []
     private var trackerCreationDates: [UUID: Date] = [:]
 
@@ -127,21 +129,9 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     }
 
     private func reloadData() {
-        guard let fetchedObjects = CoreDataMain.shared.trackerStore.fetchedResultsController.fetchedObjects else { return }
+        categories = CoreDataMain.shared.trackerStore.fetchTrackersGroupedByCategory()
         
-        let trackers: [Tracker] = fetchedObjects.compactMap { coreDataObject in
-            guard let id = coreDataObject.id,
-                  let title = coreDataObject.title,
-                  let color = coreDataObject.color,
-                  let emoji = coreDataObject.emoji else { return nil}
-            return Tracker(id: id,
-                           title: title,
-                           color: color,
-                           emoji: emoji,
-                           schedule: Tracker.deserializeSchedule(from: coreDataObject.schedule)
-            )
-        }
-        categories = categoriseTrackers(trackers: trackers)
+        guard let fetchedObjects = CoreDataMain.shared.trackerStore.fetchedResultsController.fetchedObjects else { return }
         
         trackerCreationDates = fetchedObjects.reduce(into: [:]) { dict, tracker in
             if let id = tracker.id, let creationDate = tracker.creationDate {
@@ -349,7 +339,8 @@ extension TrackerViewController: UICollectionViewDataSource {
             withReuseIdentifier: TrackerCVHeader.headerIdentifier,
             for: indexPath) as? TrackerCVHeader
         else {
-            fatalError("Failed to dequeue Trackers Header")
+            assertionFailure("Failed to dequeue Trackers Header")
+            return UICollectionReusableView()
         }
         
         header.titleLabel.text = filteredCategories[indexPath.section].header
@@ -491,32 +482,6 @@ extension TrackerViewController: UISearchBarDelegate  {
 
 extension TrackerViewController: HabitCreationDelegate {
     func didCreateHabit() {
-        //        trackerCreationDates[habit.id] = Date()
-        //
-        //        if habit.schedule?.isEmpty ?? true {
-        //            if let index = categories.firstIndex(where: { $0.header == "Нерегулярные события" }) {
-        //                var updatedTrackers = categories[index].trackers
-        //                updatedTrackers.append(habit)
-        //                let updatedCategory = TrackerCategory(header: "Нерегулярные события", trackers: updatedTrackers)
-        //                categories[index] = updatedCategory
-        //            } else {
-        //                let newCategory = TrackerCategory(header: "Нерегулярные события", trackers: [habit])
-        //                categories.append(newCategory)
-        //            }
-        //        } else {
-        //            if let index = categories.firstIndex(where: { $0.header == "По умолчанию" }) {
-        //                var updatedTrackers = categories[index].trackers
-        //                updatedTrackers.append(habit)
-        //                let updatedCategory = TrackerCategory(header: "По умолчанию", trackers: updatedTrackers)
-        //                categories[index] = updatedCategory
-        //            } else {
-        //                let newCategory = TrackerCategory(header: "По умолчанию", trackers: [habit])
-        //                categories.append(newCategory)
-        //            }
-        //        }
-        //        reloadFilteredCategories(text: searchBar.text, date: datePicker.date)
-        //        collectionView.reloadData()
-        //    }
         reloadData()
     }
 }

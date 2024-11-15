@@ -38,7 +38,7 @@ final class CreateHabbitTableViewCell: UITableViewCell {
         
         private lazy var arrowIcon: UIImageView = {
             let arrow = UIImageView()
-            arrow.image = UIImage(named: "arrow")
+            arrow.image = UIImage(named: "chevron")
             arrow.contentMode = .scaleAspectFit
             return arrow
         }()
