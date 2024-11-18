@@ -489,9 +489,8 @@ extension TrackerViewController: HabitCreationDelegate {
 extension TrackerViewController: TrackerTypeDelegate {
     func showCreateHabit() {
         dismiss(animated: false) { [weak self] in
-            let createHabitVC = CreateHabitViewController()
+            let createHabitVC = CreateHabitViewController(isIrregularEvent: false)
             createHabitVC.delegate = self
-            createHabitVC.isIrregularEvent = false
             createHabitVC.modalPresentationStyle = .pageSheet
             self?.present(createHabitVC, animated: true)
         }
@@ -499,9 +498,8 @@ extension TrackerViewController: TrackerTypeDelegate {
 
     func showCreateIrregularEvent() {
         dismiss(animated: false) { [weak self] in
-            let createHabitVC = CreateHabitViewController()
+            let createHabitVC = CreateHabitViewController(isIrregularEvent: true)
             createHabitVC.delegate = self
-            createHabitVC.isIrregularEvent = true
             createHabitVC.modalPresentationStyle = .pageSheet
             self?.present(createHabitVC, animated: true)
         }

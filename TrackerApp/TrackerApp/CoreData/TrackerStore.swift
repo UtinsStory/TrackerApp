@@ -123,5 +123,32 @@ extension TrackerStore {
             return []
         }
     }
+    
 }
+
+extension TrackerStore {
+    func updateTracker(id: UUID, title: String, color: String, emoji: String, schedule: [WeekDay]?, categoryTitle: String) {
+        guard let trackerCoreData = fetchTracker(by: id) else { return }
+
+        trackerCoreData.title = title
+        trackerCoreData.color = color
+        trackerCoreData.emoji = emoji
+        trackerCoreData.schedule = schedule?.map { String($0.rawValue) }.joined(separator: ",")
+
+        let categoryStore = TrackerCategoryStore()
+        var category = categoryStore.fetchCategory(by: categoryTitle)
+        if category == nil {
+            categoryStore.createCategory(header: categoryTitle)
+            category = categoryStore.fetchCategory(by: categoryTitle)
+        }
+
+        if let category = category {
+            trackerCoreData.category = category
+        }
+
+        saveContext()
+        delegate?.trackerStoreDidUpdate()
+    }
+}
+
 
