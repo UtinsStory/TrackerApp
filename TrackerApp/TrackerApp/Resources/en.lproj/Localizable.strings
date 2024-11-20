@@ -90,3 +90,7 @@
 "todayTrackers" = "Today trackers";
 "completedTrackers" = "Completed trackers";
 "uncompletedTrackers" = "Uncompleted trackers";
+
+//MARK: - TabBarController
+
+"statistic" = "Statistics";

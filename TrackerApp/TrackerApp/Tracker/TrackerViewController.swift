@@ -52,6 +52,20 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         reloadFilteredCategories(text: searchBar.text, date: datePicker.date)
         setConsrainSearchBar()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        AnalyticsService.logEvent(event: "open", screen: "Main")
+        print("Event logged: open, screen: Main")
+    }
+    
+    override func viewWillDisappear (_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        AnalyticsService.logEvent(event: "close", screen: "Main")
+        print("Event logged: close, screen: Main")
+    }
 
     //MARK: - Helpers
 
@@ -204,11 +218,16 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     }
 
     @objc private func addTrackerButtonTapped() {
+        AnalyticsService.logEvent(event: "click", screen: "Main", item: "add_track")
+        print("Event logged: click, screen: Main, item: add_track")
+        
         let trackerTypeVC = AddTrackerViewController()
         trackerTypeVC.delegate = self
         trackerTypeVC.habitCreationDelegate = self
         trackerTypeVC.modalPresentationStyle = .pageSheet
         present(trackerTypeVC, animated: true)
+        
+        
     }
 
     @objc private func selectFilter() {

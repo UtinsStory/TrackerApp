@@ -29,11 +29,11 @@ enum EmptyStateType {
     var text: String {
         switch self {
         case .noCategories:
-            return "Привычки и события можно\nобъединить по смыслу"
+            return LocalizationHelper.localizedString("noCategoryText")
         case .noTrackers:
-            return "Что будем отслеживать?"
+            return LocalizationHelper.localizedString("emptyTrackersText")
         case .noResults:
-            return "Ничего не найдено"
+            return LocalizationHelper.localizedString("nothingFound")
         case .noStats:
             return "Анализировать пока нечего"
         }

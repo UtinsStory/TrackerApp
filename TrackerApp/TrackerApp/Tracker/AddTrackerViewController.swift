@@ -34,7 +34,7 @@ final class AddTrackerViewController: UIViewController {
         let buttonHabbit = createButton(title: LocalizationHelper.localizedString("habit"), action: #selector(habitButtonTaped))
         stackView.addArrangedSubview(buttonHabbit)
  
-        let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregualrEvent"), action: #selector(irregularEventButtonTaped))
+        let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregularEvent"), action: #selector(irregularEventButtonTaped))
         stackView.addArrangedSubview(buttonOneEvent)
         
         NSLayoutConstraint.activate([

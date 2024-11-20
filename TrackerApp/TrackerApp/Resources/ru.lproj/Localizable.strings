@@ -91,3 +91,7 @@
 "todayTrackers" = "Трекеры на сегодня";
 "completedTrackers" = "Завершенные";
 "uncompletedTrackers" = "Незавершенные";
+
+//MARK: - TabBarController
+
+"statistic" = "Статистика";

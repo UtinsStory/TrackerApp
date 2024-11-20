@@ -10,7 +10,7 @@ final class PlaceholderView: UIView {
     
     private lazy var emptyStateLabel: UILabel = {
         let emptyStateLabel = UILabel()
-        emptyStateLabel.text = "Что будем отслеживать?"
+        emptyStateLabel.text = LocalizationHelper.localizedString("emptyTrackersText")
         emptyStateLabel.font = .systemFont(ofSize: 12, weight: .medium)
         emptyStateLabel.textColor = .ypBlack
         emptyStateLabel.textAlignment = .center
