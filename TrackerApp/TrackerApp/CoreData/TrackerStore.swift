@@ -14,6 +14,7 @@ protocol TrackerStoreDelegate: AnyObject {
 final class TrackerStore: NSObject {
     private let managedObjectContext: NSManagedObjectContext
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>!
+    
     weak var delegate: TrackerStoreDelegate?
     
     init(managedObjectContext: NSManagedObjectContext = CoreDataMain.shared.persistentContainer.viewContext) {
@@ -37,6 +38,14 @@ final class TrackerStore: NSObject {
             try fetchedResultsController.performFetch()
         } catch {
             print("Error performing fetch: \(error)")
+        }
+    }
+    
+    func deleteTrackerAndRecords(trackerId: UUID) {
+        if let trackerCoreData = fetchTracker(by: trackerId) {
+            CoreDataMain.shared.trackerRecordStore.deleteAllTrackerRecords(with: trackerId)
+            managedObjectContext.delete(trackerCoreData)
+            saveContext()
         }
     }
     
@@ -113,11 +122,18 @@ extension TrackerStore {
         
         do {
             let categoryEntities = try managedObjectContext.fetch(fetchRequest)
-            return categoryEntities.map { categoryEntity in
+            var categories = categoryEntities.map { categoryEntity in
                 let trackers = categoryEntity.trackers?.allObjects as? [TrackerCoreData] ?? []
                 let trackerModels = trackers.map { Tracker(trackerCoreData: $0) }
                 return TrackerCategory(header: categoryEntity.header ?? "Без категории", trackers: trackerModels)
             }
+            
+            if let completedCategoryIndex = categories.firstIndex(where: { $0.header == "Закрепленные" }) {
+                let completedCategory = categories.remove(at: completedCategoryIndex)
+                categories.insert(completedCategory, at: 0)
+            }
+            
+            return categories
         } catch let error as NSError {
             print("Error fetching categories: \(error), \(error.userInfo)")
             return []
@@ -127,25 +143,95 @@ extension TrackerStore {
 }
 
 extension TrackerStore {
+    
+    func pinTracker(_ trackerId: UUID) {
+        guard let trackerCoreData = fetchTracker(by: trackerId) else { return }
+        
+        if let currentCategory = trackerCoreData.category {
+            currentCategory.removeFromTrackers(trackerCoreData)
+            trackerCoreData.backupCategory = currentCategory.header
+        }
+        
+        let pinnedCategory = createCategoryIfNotExists(with: "Закрепленные")
+        trackerCoreData.category = pinnedCategory
+        pinnedCategory.addToTrackers(trackerCoreData)
+        
+        saveContext()
+    }
+    
+    func unpinTracker(_ trackerId: UUID) {
+        guard let trackerCoreData = fetchTracker(by: trackerId) else { return }
+        
+        if let pinnedCategory = trackerCoreData.category, pinnedCategory.header == "Закрепленные" {
+            pinnedCategory.removeFromTrackers(trackerCoreData)
+        }
+        
+        if let originalCategoryTitle = trackerCoreData.backupCategory {
+            if let originalCategory = fetchCategory(by: originalCategoryTitle) {
+                trackerCoreData.category = originalCategory
+                originalCategory.addToTrackers(trackerCoreData)
+                trackerCoreData.backupCategory = nil
+            } else {
+                let newCategory = createCategoryIfNotExists(with: originalCategoryTitle)
+                trackerCoreData.category = newCategory
+                newCategory.addToTrackers(trackerCoreData)
+                trackerCoreData.backupCategory = nil
+            }
+        }
+        saveContext()
+    }
+    
+    private func createCategoryIfNotExists(with header: String) -> TrackerCategoryCoreData {
+        if let existingCategory = fetchCategory(by: header) {
+            return existingCategory
+        } else {
+            let newCategory = TrackerCategoryCoreData(context: managedObjectContext)
+            newCategory.header = header
+            saveContext()
+            return newCategory
+        }
+    }
+    
+    private func fetchCategory(by title: String) -> TrackerCategoryCoreData? {
+        let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+        
+        do {
+            let results = try managedObjectContext.fetch(fetchRequest)
+            return results.first
+        } catch {
+            print("Failed to fetch category: \(error)")
+            return nil
+        }
+    }
+}
+
+extension TrackerStore {
+    func convertToCoreData(tracker: Tracker) -> TrackerCoreData? {
+        return fetchTracker(by: tracker.id)
+    }
+}
+
+extension TrackerStore {
     func updateTracker(id: UUID, title: String, color: String, emoji: String, schedule: [WeekDay]?, categoryTitle: String) {
         guard let trackerCoreData = fetchTracker(by: id) else { return }
-
+        
         trackerCoreData.title = title
         trackerCoreData.color = color
         trackerCoreData.emoji = emoji
         trackerCoreData.schedule = schedule?.map { String($0.rawValue) }.joined(separator: ",")
-
+        
         let categoryStore = TrackerCategoryStore()
         var category = categoryStore.fetchCategory(by: categoryTitle)
         if category == nil {
             categoryStore.createCategory(header: categoryTitle)
             category = categoryStore.fetchCategory(by: categoryTitle)
         }
-
+        
         if let category = category {
             trackerCoreData.category = category
         }
-
+        
         saveContext()
         delegate?.trackerStoreDidUpdate()
     }

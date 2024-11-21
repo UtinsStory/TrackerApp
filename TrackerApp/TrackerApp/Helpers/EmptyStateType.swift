@@ -35,7 +35,7 @@ enum EmptyStateType {
         case .noResults:
             return LocalizationHelper.localizedString("nothingFound")
         case .noStats:
-            return "Анализировать пока нечего"
+            return LocalizationHelper.localizedString("emptyStatisticText")
         }
     }
 }

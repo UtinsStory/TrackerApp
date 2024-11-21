@@ -27,7 +27,7 @@ final class AnalyticsService {
         }
         
         YMMYandexMetrica.reportEvent("ui_event", parameters: eventParams, onFailure: { error in
-            print("Event logged: \(event), screen: \(screen), item: \(item ?? "N/A")")
+            print("Error: \(error.localizedDescription)")
         })
     }
 }

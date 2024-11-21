@@ -94,3 +94,8 @@
 //MARK: - TabBarController
 
 "statistic" = "Statistics";
+
+//MARK: - StatisticViewController
+
+"emptyStatisticText" = "There's nothing to analyze yet";
+"completedTrackers" = "Completed Trackers";

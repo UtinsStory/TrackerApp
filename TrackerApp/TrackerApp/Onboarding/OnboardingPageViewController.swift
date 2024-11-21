@@ -26,7 +26,7 @@ final class OnboardingPageViewController: UIPageViewController {
         let continueButton = UIButton(type: .system)
         continueButton.setTitle(LocalizationHelper.localizedString("onboardingButtonText"), for: .normal)
         continueButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        continueButton.setTitleColor(.ypWhite, for: .normal)
+        continueButton.setTitleColor(.white, for: .normal)
         
         continueButton.backgroundColor = .black
         continueButton.layer.cornerRadius = 16
@@ -65,7 +65,6 @@ final class OnboardingPageViewController: UIPageViewController {
             continueButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         
-        
         if let firstPage = viewController(for: .pageOne) {
             setViewControllers([firstPage], direction: .forward, animated: true, completion: nil)
         }
@@ -80,7 +79,11 @@ final class OnboardingPageViewController: UIPageViewController {
         if let window = view?.window {
             let mainScreen = TabBarController()
             window.rootViewController = mainScreen
-            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            UIView.transition(with: window,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
         }
     }
     
@@ -117,8 +120,8 @@ extension OnboardingPageViewController: UIPageViewControllerDelegate {
                             didFinishAnimating finished: Bool,
                             previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed,
-           let visibleController = pageViewController.viewControllers?.first as? OnboardingViewController {
-            pageControl.currentPage = visibleController.page.rawValue
+           let visiableController = pageViewController.viewControllers?.first as? OnboardingViewController {
+            pageControl.currentPage = visiableController.page.rawValue
         }
     }
 }

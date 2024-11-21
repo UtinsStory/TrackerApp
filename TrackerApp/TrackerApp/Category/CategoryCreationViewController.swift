@@ -51,6 +51,7 @@ final class CategoryCreationViewController: UIViewController {
         creation.setTitle(LocalizationHelper.localizedString("doneButtonText"), for: .normal)
         creation.backgroundColor = .ypGray
         creation.layer.cornerRadius = 16
+        creation.setTitleColor(.ypBlack, for: .normal)
         creation.translatesAutoresizingMaskIntoConstraints = false
         creation.addTarget(self,
                            action: #selector(creationButtonTapped),
@@ -64,6 +65,7 @@ final class CategoryCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
+        hideKeyboardWhenTappedAround()
         setupTitleLabel()
         setupCreationButton()
         setupNameTextField()

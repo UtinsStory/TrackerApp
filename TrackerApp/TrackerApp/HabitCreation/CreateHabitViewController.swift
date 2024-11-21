@@ -95,6 +95,8 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .ypWhite
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         return scrollView
     }()
     
@@ -297,7 +299,6 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
             }
         }
     }
-    
     
     private func updateButtonText() {
         if isEditingMode {
@@ -522,6 +523,8 @@ extension CreateHabitViewController: UITableViewDataSource {
                                isLastCell: isLastCell)
         }
         
+        cell.selectionStyle = .none
+        
         if isLastCell {
             cell.hideSeparator()
             cell.layer.cornerRadius = 16
@@ -573,6 +576,7 @@ extension CreateHabitViewController {
     }
 }
 
+// MARK: - ScheduleViewControllerDelegate
 extension CreateHabitViewController: ScheduleViewControllerDelegate {
     func didUpdateSchedule(selectedDays: [WeekDay], displayText: String) {
         self.selectedWeekDays = selectedDays
@@ -585,6 +589,7 @@ extension CreateHabitViewController: ScheduleViewControllerDelegate {
     }
 }
 
+// MARK: - CategoryListViewControllerDelegate
 extension CreateHabitViewController: CategoryListViewControllerDelegate {
     func didSelectCategory(_ category: String) {
         selectedCategory = category

@@ -11,7 +11,7 @@ final class PlaceholderNoFilterResultsView: UIView {
     private func setNoResult() {
  
         let noResultsLabel = UILabel()
-        noResultsLabel.text = "Ничего не найдено"
+        noResultsLabel.text = LocalizationHelper.localizedString("nothingFound")
         noResultsLabel.textColor = .ypBlack
         noResultsLabel.textAlignment = .center
         noResultsLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)

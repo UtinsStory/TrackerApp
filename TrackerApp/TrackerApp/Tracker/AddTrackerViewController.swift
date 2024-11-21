@@ -31,10 +31,12 @@ final class AddTrackerViewController: UIViewController {
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
 
-        let buttonHabbit = createButton(title: LocalizationHelper.localizedString("habit"), action: #selector(habitButtonTaped))
+        let buttonHabbit = createButton(title: LocalizationHelper.localizedString("habit"),
+                                        action: #selector(habitButtonTaped))
         stackView.addArrangedSubview(buttonHabbit)
  
-        let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregularEvent"), action: #selector(irregularEventButtonTaped))
+        let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregularEvent"),
+                                          action: #selector(irregularEventButtonTaped))
         stackView.addArrangedSubview(buttonOneEvent)
         
         NSLayoutConstraint.activate([
@@ -78,7 +80,7 @@ final class AddTrackerViewController: UIViewController {
         button.addTarget(self, action: action, for: .touchUpInside)
 
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-
+        button.setTitleColor(.ypWhite, for: .normal)
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         return button

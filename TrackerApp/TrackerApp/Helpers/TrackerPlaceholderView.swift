@@ -36,6 +36,15 @@ final class PlaceholderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with type: EmptyStateType, labelHeight: CGFloat) {
+        emptyStateImageView.image = type.image
+        emptyStateLabel.text = type.text
+        
+        NSLayoutConstraint.activate([
+            emptyStateLabel.heightAnchor.constraint(equalToConstant: labelHeight)
+        ])
+    }
+    
     // MARK: - Setup View
     private func addElements() {
         [emptyStateLabel,

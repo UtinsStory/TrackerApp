@@ -13,6 +13,7 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 
 final class ScheduleViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     weak var delegate: ScheduleViewControllerDelegate?
+    
     private let tableView = UITableView()
     private let daysOfWeek = [
         LocalizationHelper.localizedString("monday"),
@@ -56,35 +57,8 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         ])
     }
     
-//    private func isEverydaySelected(_ days: [WeekDay]) -> Bool {
-//        return Set(days) == Set(WeekDay.allCases)
-//    }
-//    
-//    private func isWeekdaysSelected(_ days: [WeekDay]) -> Bool {
-//        let weekdays: Set<WeekDay> = [.monday, .tuesday, .wednesday, .thursday, .friday]
-//        return Set(days) == weekdays
-//    }
-//    
-//    private func isWeekendSelected(_ days: [WeekDay]) -> Bool {
-//        let weekend: Set<WeekDay> = [.saturday, .sunday]
-//        return Set(days).isSubset(of: weekend)
-//    }
-//    
-//    private func getDisplayText(for days: [WeekDay]) -> String {
-//        if isEverydaySelected(days) {
-//            return "Каждый день"
-//        } else if isWeekdaysSelected(days) {
-//            return "Будние дни"
-//        } else if isWeekendSelected(days) {
-//            return "Выходные дни"
-//        } else {
-//            return days.map { $0.asShortText() }.joined(separator: ", ")
-//        }
-//    }
-    
     private func updateSchedule() {
         let selectedDays = getSelectedDays()
-//        let displayText = getDisplayText(for: selectedDays)
         delegate?.didUpdateSchedule(selectedDays: selectedDays, displayText: selectedDays.displayText)
     }
     
@@ -116,12 +90,14 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .ypWhite
         
         tableView.layer.cornerRadius = 16
         tableView.layer.masksToBounds = true
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .ypGray
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -132,7 +108,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         ])
     }
     
-    // MARK: - Table view data source
+    // MARK: - TableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return daysOfWeek.count

@@ -56,6 +56,9 @@
 		BFDAE35F2CE760B700ECAA6F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFDAE35D2CE760B700ECAA6F /* Localizable.strings */; };
 		BFDAE3632CE7631400ECAA6F /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3622CE7630B00ECAA6F /* LocalizationHelper.swift */; };
 		BFDAE37F2CEDEC6500ECAA6F /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE37E2CEDEC6500ECAA6F /* AnalyticsService.swift */; };
+		BFDAE3812CEF316800ECAA6F /* StatisticsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3802CEF316800ECAA6F /* StatisticsItemView.swift */; };
+		BFDAE3832CEF489C00ECAA6F /* TrackerFilterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */; };
+		BFDAE3852CEF4A0400ECAA6F /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3842CEF4A0400ECAA6F /* FiltersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +139,9 @@
 		BFDAE3612CE7618800ECAA6F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BFDAE3622CE7630B00ECAA6F /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
 		BFDAE37E2CEDEC6500ECAA6F /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		BFDAE3802CEF316800ECAA6F /* StatisticsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsItemView.swift; sourceTree = "<group>"; };
+		BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFilterHelper.swift; sourceTree = "<group>"; };
+		BFDAE3842CEF4A0400ECAA6F /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		CCCB5FC4BF9A03240651C059 /* Pods-TrackerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackerApp.release.xcconfig"; path = "Target Support Files/Pods-TrackerApp/Pods-TrackerApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -260,6 +266,7 @@
 				BFB4258D2CB2C87B00CA4BAF /* TrackersCollectionViewCell.swift */,
 				BFB425592CAAB0A400CA4BAF /* AddTrackerViewController.swift */,
 				BFB4255A2CAAB0A400CA4BAF /* TrackerViewController.swift */,
+				BFDAE3842CEF4A0400ECAA6F /* FiltersViewController.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -281,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				BFB425582CAAB0A400CA4BAF /* StatisticsViewController.swift */,
+				BFDAE3802CEF316800ECAA6F /* StatisticsItemView.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 				BFDAE3312CE600FA00ECAA6F /* ViewState.swift */,
 				BFDAE3332CE6012B00ECAA6F /* EmptyStateType.swift */,
 				BFDAE3352CE6045B00ECAA6F /* EmptyStateView.swift */,
+				BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -603,6 +612,7 @@
 				BFDAE22B2CC79D7100ECAA6F /* UIViewContoller+Extensions.swift in Sources */,
 				BFB4259B2CB521B100CA4BAF /* UIView+Extension.swift in Sources */,
 				BFDAE2B12CD8D4C200ECAA6F /* CoreDataMain.swift in Sources */,
+				BFDAE3832CEF489C00ECAA6F /* TrackerFilterHelper.swift in Sources */,
 				BFB425732CAAB19000CA4BAF /* WeekDay.swift in Sources */,
 				BFDAE2242CC2763800ECAA6F /* GeometricParameters.swift in Sources */,
 				BFDAE3252CE4B68B00ECAA6F /* OnboardingPageViewController.swift in Sources */,
@@ -611,6 +621,7 @@
 				BFDAE3322CE600FA00ECAA6F /* ViewState.swift in Sources */,
 				BFDAE2702CC9081E00ECAA6F /* ColorSelectionCollectionViewCell.swift in Sources */,
 				BFDAE2AB2CCA85CB00ECAA6F /* TrackerCategoryStore.swift in Sources */,
+				BFDAE3812CEF316800ECAA6F /* StatisticsItemView.swift in Sources */,
 				BFDAE26E2CC9065000ECAA6F /* EmojiCollectionViewCell.swift in Sources */,
 				BFB4258C2CAFF78600CA4BAF /* TabBarController.swift in Sources */,
 				BFDAE3342CE6012B00ECAA6F /* EmptyStateType.swift in Sources */,
@@ -623,6 +634,7 @@
 				BFDAE3632CE7631400ECAA6F /* LocalizationHelper.swift in Sources */,
 				BFDAE2A52CCA76B800ECAA6F /* TrackerModel.xcdatamodeld in Sources */,
 				BFDAE3302CE5FEE000ECAA6F /* CategoryListViewModel.swift in Sources */,
+				BFDAE3852CEF4A0400ECAA6F /* FiltersViewController.swift in Sources */,
 				BFB425612CAAB0A400CA4BAF /* SceneDelegate.swift in Sources */,
 				BFB425622CAAB0A400CA4BAF /* StatisticsViewController.swift in Sources */,
 				BFDAE2212CB7DA4400ECAA6F /* TrackerCVHeader.swift in Sources */,

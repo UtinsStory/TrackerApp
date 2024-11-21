@@ -14,6 +14,7 @@ protocol CategoryListViewControllerDelegate: AnyObject {
 final class CategoryListViewController: UIViewController {
     
     weak var delegate: CategoryListViewControllerDelegate?
+    
     private let viewModel = CategoryListViewModel()
     
     private lazy var titleLabel: UILabel = {
@@ -38,6 +39,7 @@ final class CategoryListViewController: UIViewController {
         tableView.showsHorizontalScrollIndicator = false
         tableView.layer.cornerRadius = 16
         tableView.clipsToBounds = true
+        tableView.backgroundColor = .ypWhite
 
         return tableView
     }()
@@ -136,7 +138,7 @@ final class CategoryListViewController: UIViewController {
             noResultsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
 
-        let noResultsImageView = UIImageView(image: UIImage(named: "errorStar"))
+        let noResultsImageView = UIImageView(image: UIImage(named: "empty"))
         noResultsImageView.contentMode = .scaleAspectFit
         noResultsImageView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -162,7 +164,7 @@ final class CategoryListViewController: UIViewController {
         view.subviews.forEach { view in
             if let label = view as? UILabel, label.text?.contains(LocalizationHelper.localizedString("noCategoryText")) == true {
                 view.removeFromSuperview()
-            } else if let imageView = view as? UIImageView, imageView.image == UIImage(named: "errorStar") {
+            } else if let imageView = view as? UIImageView, imageView.image == UIImage(named: "empty") {
                 view.removeFromSuperview()
             }
         }
@@ -303,11 +305,4 @@ extension CategoryListViewController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row != viewModel.categories.count - 1 {
-            print("не последняя ячейка")
-        } else {
-            print("последняя ячейка")
-        }
-    }
 }

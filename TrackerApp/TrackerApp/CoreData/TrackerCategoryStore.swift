@@ -13,6 +13,7 @@ protocol TrackerCategoryStoreDelegate: AnyObject {
 
 final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     weak var delegate: TrackerCategoryStoreDelegate?
+    
     private let managedObjectContext: NSManagedObjectContext
     private var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>!
     
