@@ -13,7 +13,7 @@ final class FiltersViewController: UIViewController {
 
         private var selectedIndex: IndexPath?
         private var previouslySelectedIndex: IndexPath?
-        private let allFilters = ["Все трекеры", "Трекеры на сегодня", "Завершенные", "Не завершенные"]
+        private let allFilters = [LocalizationHelper.localizedString("allTrackers"), "todayTrackers", "completedTrackers", "Uncompleted"]
         private let filterTypes: [TrackerFilterHelper] = [.all, .today, .completed, .uncompleted]
 
         // MARK: - UI Components
@@ -21,7 +21,7 @@ final class FiltersViewController: UIViewController {
         // Заголовок страницы
         private lazy var titleLabel: UILabel = {
             let label = UILabel()
-            label.text = "Фильтры"
+            label.text = LocalizationHelper.localizedString("filters")
             label.textColor = .ypBlack
             label.textAlignment = .center
             label.font = UIFont.systemFont(ofSize: 16, weight: .medium)

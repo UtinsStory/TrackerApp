@@ -11,6 +11,10 @@ final class CategoryCreationViewController: UIViewController {
 
     var onCategoryAdded: ((String) -> Void)?
     private var viewModel = CategoryCreationViewModel()
+    
+    private let buttonTextColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .dark ? .black : .ypWhite
+    }
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -51,7 +55,7 @@ final class CategoryCreationViewController: UIViewController {
         creation.setTitle(LocalizationHelper.localizedString("doneButtonText"), for: .normal)
         creation.backgroundColor = .ypGray
         creation.layer.cornerRadius = 16
-        creation.setTitleColor(.ypBlack, for: .normal)
+        creation.setTitleColor(buttonTextColor, for: .normal)
         creation.translatesAutoresizingMaskIntoConstraints = false
         creation.addTarget(self,
                            action: #selector(creationButtonTapped),
@@ -84,6 +88,7 @@ final class CategoryCreationViewController: UIViewController {
         viewModel.onCreationButtonStateUpdated = { [weak self] isEnabled in
             self?.creationButton.isEnabled = isEnabled
             self?.creationButton.backgroundColor = isEnabled ? .ypBlack : .ypGray
+            self?.creationButton.setTitleColor(isEnabled ? .ypWhite : .white, for: .normal)
         }
     }
 

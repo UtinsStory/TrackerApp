@@ -22,7 +22,8 @@ final class TabBarController: UITabBarController {
                                                image: UIImage(named: "stats_tabbar"),
                                                selectedImage: nil)
         
-       let trackerNavigationController = UINavigationController(rootViewController: trackerVC)
+        let trackerNavigationController = UINavigationController(rootViewController: trackerVC)
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsVC)
         
         
         let separatorImage = UIImage()
@@ -31,7 +32,7 @@ final class TabBarController: UITabBarController {
         self.tabBar.layer.borderWidth = 0.50
         self.tabBar.clipsToBounds = true
         
-        self.viewControllers = [trackerNavigationController, statisticsVC]
+        self.viewControllers = [trackerNavigationController, statisticsNavigationController]
         
     }
 }

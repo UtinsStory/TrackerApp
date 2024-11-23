@@ -152,7 +152,7 @@ extension TrackerStore {
             trackerCoreData.backupCategory = currentCategory.header
         }
         
-        let pinnedCategory = createCategoryIfNotExists(with: "Закрепленные")
+        let pinnedCategory = createCategoryIfNotExists(with: LocalizationHelper.localizedString("pinned"))
         trackerCoreData.category = pinnedCategory
         pinnedCategory.addToTrackers(trackerCoreData)
         
@@ -162,7 +162,7 @@ extension TrackerStore {
     func unpinTracker(_ trackerId: UUID) {
         guard let trackerCoreData = fetchTracker(by: trackerId) else { return }
         
-        if let pinnedCategory = trackerCoreData.category, pinnedCategory.header == "Закрепленные" {
+        if let pinnedCategory = trackerCoreData.category, pinnedCategory.header == LocalizationHelper.localizedString("pinned") {
             pinnedCategory.removeFromTrackers(trackerCoreData)
         }
         
@@ -192,9 +192,9 @@ extension TrackerStore {
         }
     }
     
-    private func fetchCategory(by title: String) -> TrackerCategoryCoreData? {
+    private func fetchCategory(by header: String) -> TrackerCategoryCoreData? {
         let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+        fetchRequest.predicate = NSPredicate(format: "header == %@", header)
         
         do {
             let results = try managedObjectContext.fetch(fetchRequest)

@@ -237,7 +237,6 @@
 				BFB425542CAAB0A400CA4BAF /* LaunchScreen.storyboard */,
 				BFDAE2222CC2762300ECAA6F /* Helpers */,
 				BFB4258B2CAFF78600CA4BAF /* TabBarController.swift */,
-				BFDAE37E2CEDEC6500ECAA6F /* AnalyticsService.swift */,
 			);
 			path = TrackerApp;
 			sourceTree = "<group>";
@@ -304,6 +303,7 @@
 				BFDAE2232CC2762F00ECAA6F /* GeometricParameters.swift */,
 				BFB4259A2CB521A400CA4BAF /* UIView+Extension.swift */,
 				BFDAE3312CE600FA00ECAA6F /* ViewState.swift */,
+				BFDAE37E2CEDEC6500ECAA6F /* AnalyticsService.swift */,
 				BFDAE3332CE6012B00ECAA6F /* EmptyStateType.swift */,
 				BFDAE3352CE6045B00ECAA6F /* EmptyStateView.swift */,
 				BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */,

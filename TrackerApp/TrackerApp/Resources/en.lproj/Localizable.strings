@@ -44,12 +44,14 @@
 "save" = "Save";
 "characterLimit" = "38 character limit";
 "editHabit" = "Edit habit";
+"default" = "Default";
 
 //MARK: - CategoryCreationViewController
 
 "newCategory" = "New category";
 "enterCategoryName" = "Enter category";
 "doneButtonText" = "Done";
+"pinned" = "Pinned";
 
 //MARK: - CategoryListViewController
 
@@ -90,6 +92,7 @@
 "todayTrackers" = "Today trackers";
 "completedTrackers" = "Completed trackers";
 "uncompletedTrackers" = "Uncompleted trackers";
+"filters" = "Фильтры";
 
 //MARK: - TabBarController
 

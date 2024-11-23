@@ -45,12 +45,14 @@
 "save" = "Сохранить";
 "characterLimit" = "Ограничение 38 символов";
 "editHabit" = "Редактирование привычки";
+"default" = "По умолчанию";
 
 //MARK: - CategoryCreationViewController
 
 "newCategory" = "Новая категория";
 "enterCategoryName" = "Введите название категории";
 "doneButtonText" = "Готово";
+"pinned" = "Закрепленные";
 
 //MARK: - CategoryListViewController
 
@@ -91,6 +93,8 @@
 "todayTrackers" = "Трекеры на сегодня";
 "completedTrackers" = "Завершенные";
 "uncompletedTrackers" = "Незавершенные";
+"filters" = "Фильтры";
+
 
 //MARK: - TabBarController
 
@@ -100,3 +104,5 @@
 
 "emptyStatisticText" = "Анализировать пока нечего";
 "completedTrackers" = "Трекеров завершено";
+
+

@@ -325,7 +325,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     
     func isTrackerPinned(_ tracker: Tracker) -> Bool {
         guard let trackerCoreData = CoreDataMain.shared.trackerStore.fetchTracker(by: tracker.id) else { return false }
-        return trackerCoreData.category?.header == "Закрепленные"
+        return trackerCoreData.category?.header == LocalizationHelper.localizedString("pinned")
     }
     
     private func setConsrainSearchBar() {
@@ -571,14 +571,58 @@ extension TrackerViewController: UICollectionViewDataSource {
             with: tracker,
             isCompletedToday: isCompletedToday,
             completedDays: completedDays,
-            indexPath: indexPath
+            indexPath: indexPath,
+            isPinned: isTrackerPinned(tracker)
         )
+        
+        cell.onDelete = { [weak self] in
+            let alert = UIAlertController(
+                title: LocalizationHelper.localizedString("areYouSure"),
+                message: nil, preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(
+                title: LocalizationHelper.localizedString("delete"),
+                style: .destructive
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                let tracker = self.filteredCategories[indexPath.section].trackers[indexPath.row]
+                
+                CoreDataMain.shared.trackerRecordStore.deleteAllTrackerRecords(with: tracker.id)
+                CoreDataMain.shared.trackerStore.deleteTrackerAndRecords(trackerId: tracker.id)
+                AnalyticsService.logEvent(event: "click", screen: "Main", item: "delete")
+                self.reloadData()
+            }
+            let cancelAction = UIAlertAction(title: LocalizationHelper.localizedString("cancel"), style: .cancel)
+            alert.addAction(deleteAction)
+            alert.addAction(cancelAction)
+            self?.present(alert, animated: true)
+        }
+        
+        cell.onEdit = { [weak self] in
+            guard let self = self else { return }
+            AnalyticsService.logEvent(event: "click", screen: "Main", item: "edit")
+            let category = self.filteredCategories[indexPath.section]
+            let tracker = category.trackers[indexPath.row]
+            let editHabitVC = CreateHabitViewController(
+                tracker: tracker,
+                category: category.header
+            )
+            editHabitVC.delegate = self
+            editHabitVC.modalPresentationStyle = .pageSheet
+            self.present(editHabitVC, animated: true)
+        }
+        
+        cell.onPin = { [weak self] in
+            self?.togglePinTracker(tracker: tracker, at: indexPath)
+        }
+        
         return cell
     }
 }
 
 extension TrackerViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let avaliableWidth = collectionView.bounds.width - parameters.paddingWidth
         let widthPerItem = avaliableWidth / CGFloat(parameters.cellCount)
         let heightPerItem = widthPerItem * (148 / 167)
@@ -617,6 +661,10 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout {
 extension TrackerViewController: TrackersCellDelegate {
     
     func completeTracker(id: UUID, at indexPath: IndexPath) {
+        
+        AnalyticsService.logEvent(event: "click", screen: "Main", item: "track")
+              print("Event logged: click, screen: Main, item: track")
+        
         let selectedDate = datePicker.date
         let currentDate = Date()
         
@@ -625,14 +673,11 @@ extension TrackerViewController: TrackersCellDelegate {
         }
         
         if let tracker = CoreDataMain.shared.trackerStore.fetchTracker(by: id) {
-            if !CoreDataMain.shared.trackerRecordStore.isTrackerCompletedToday(tracker: tracker, date: selectedDate) {
-                CoreDataMain.shared.trackerRecordStore.addTrackerRecord(for: tracker, date: selectedDate)
-                completedTrackerIDs.insert(id)
-                if tracker.schedule?.isEmpty ?? true {
-                    completedIrregularEvents.insert(id)
-                }
-                collectionView.reloadItems(at: [indexPath])
+            CoreDataMain.shared.trackerRecordStore.addTrackerRecord(for: tracker, date: selectedDate)
+            if tracker.schedule?.isEmpty ?? true {
+                completedIrregularEvents.insert(id)
             }
+            collectionView.reloadItems(at: [indexPath])
         }
     }
     
@@ -645,14 +690,11 @@ extension TrackerViewController: TrackersCellDelegate {
         }
         
         if let tracker = CoreDataMain.shared.trackerStore.fetchTracker(by: id) {
-            if CoreDataMain.shared.trackerRecordStore.isTrackerCompletedToday(tracker: tracker, date: selectedDate) {
-                CoreDataMain.shared.trackerRecordStore.removeTrackerRecord(for: tracker, date: selectedDate)
-                completedTrackerIDs.remove(id)
-                if tracker.schedule?.isEmpty ?? true {
-                    completedIrregularEvents.remove(id)
-                }
-                collectionView.reloadItems(at: [indexPath])
+            CoreDataMain.shared.trackerRecordStore.removeTrackerRecord(for: tracker, date: selectedDate)
+            if tracker.schedule?.isEmpty ?? true {
+                completedIrregularEvents.remove(id)
             }
+            collectionView.reloadItems(at: [indexPath])
         }
     }
     

@@ -472,7 +472,7 @@ final class CreateHabitViewController: UIViewController, UITableViewDelegate {
                 color: selectedColorHex,
                 emoji: selectedEmoji,
                 schedule: selectedWeekDays,
-                categoryTitle: selectedCategory ?? "По умолчанию"
+                categoryTitle: selectedCategory ?? LocalizationHelper.localizedString("default")
             )
         }
         updateButtonText()

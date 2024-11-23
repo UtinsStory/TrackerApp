@@ -17,6 +17,10 @@ final class CategoryListViewController: UIViewController {
     
     private let viewModel = CategoryListViewModel()
     
+    private let buttonTextColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .dark ? .black : .ypWhite
+    }
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = LocalizationHelper.localizedString("category")
@@ -48,6 +52,7 @@ final class CategoryListViewController: UIViewController {
         let addCategoryButton = UIButton()
         addCategoryButton.setTitle(LocalizationHelper.localizedString("addCategoryButtonText"), for: .normal)
         addCategoryButton.backgroundColor = .ypBlack
+        addCategoryButton.setTitleColor(buttonTextColor, for: .normal)
         addCategoryButton.layer.cornerRadius = 16
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.addTarget(self,

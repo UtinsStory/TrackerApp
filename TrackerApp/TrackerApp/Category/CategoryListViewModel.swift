@@ -42,7 +42,7 @@ final class CategoryListViewModel {
     
     func loadCategories() {
         categories = categoryStore.fetchCategories().filter {
-            $0.header != "Закрепленные" && $0.header != "По умолчанию"
+            $0.header != LocalizationHelper.localizedString("pinned") && $0.header != LocalizationHelper.localizedString("default")
         }
         updateViewState()
     }

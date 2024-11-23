@@ -33,7 +33,7 @@ final class StatisticsViewController: UIViewController {
     }()
     
     private let errorImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "error3"))
+        let imageView = UIImageView(image: UIImage(named: "empty_search2"))
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -63,6 +63,7 @@ final class StatisticsViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = LocalizationHelper.localizedString("statistic")
         
         view.addSubview(emptyStatisticLabel)
