@@ -223,6 +223,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
         navigationItem.largeTitleDisplayMode = .always
         title = LocalizationHelper.localizedString("trackers")
         
+        
         let addButton = UIButton(type: .custom)
         if let iconImage = UIImage(named: "plus")?.withRenderingMode(.alwaysOriginal) {
             addButton.setImage(iconImage, for: .normal)
@@ -247,6 +248,9 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     func setDatePickerItem() {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
+        let now = Date()
+        let dateWithoutTime = now.removeTimeStamp
+        datePicker.date = dateWithoutTime ?? Date()
         datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.calendar.firstWeekday = 2
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -339,13 +343,12 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func pinTracker(_ tracker: Tracker) {
-        print("Pinning tracker: \(tracker.title)")
+  
         CoreDataMain.shared.trackerStore.pinTracker(tracker.id)
         reloadData()
     }
     
     func unpinTracker(_ tracker: Tracker) {
-        print("Unpinning tracker: \(tracker.title)")
         CoreDataMain.shared.trackerStore.unpinTracker(tracker.id)
         reloadData()
     }

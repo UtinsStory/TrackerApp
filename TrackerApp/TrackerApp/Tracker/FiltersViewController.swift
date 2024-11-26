@@ -13,7 +13,7 @@ final class FiltersViewController: UIViewController {
 
         private var selectedIndex: IndexPath?
         private var previouslySelectedIndex: IndexPath?
-        private let allFilters = [LocalizationHelper.localizedString("allTrackers"), "todayTrackers", "completedTrackers", "Uncompleted"]
+        private let allFilters = [LocalizationHelper.localizedString("allTrackers"), LocalizationHelper.localizedString("todayTrackers"), LocalizationHelper.localizedString("completedTrackers"), LocalizationHelper.localizedString("uncompletedTrackers")]
         private let filterTypes: [TrackerFilterHelper] = [.all, .today, .completed, .uncompleted]
 
         // MARK: - UI Components
@@ -47,7 +47,6 @@ final class FiltersViewController: UIViewController {
             return tableView
         }()
 
-        // Разделитель кастомный
         private lazy var customSeparatorView: UIView = {
             let view = UIView()
             view.backgroundColor = .ypGray

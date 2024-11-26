@@ -167,6 +167,7 @@ final class ScheduleViewController: UIViewController, UITableViewDelegate, UITab
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .ypBlack
+        button.setTitleColor(.ypWhite, for: .normal)
         button.layer.cornerRadius = 16
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)

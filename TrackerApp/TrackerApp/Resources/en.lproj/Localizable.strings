@@ -92,7 +92,7 @@
 "todayTrackers" = "Today trackers";
 "completedTrackers" = "Completed trackers";
 "uncompletedTrackers" = "Uncompleted trackers";
-"filters" = "Фильтры";
+"filters" = "Filters";
 
 //MARK: - TabBarController
 

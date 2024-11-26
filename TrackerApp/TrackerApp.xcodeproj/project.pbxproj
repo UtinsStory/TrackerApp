@@ -59,6 +59,9 @@
 		BFDAE3812CEF316800ECAA6F /* StatisticsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3802CEF316800ECAA6F /* StatisticsItemView.swift */; };
 		BFDAE3832CEF489C00ECAA6F /* TrackerFilterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */; };
 		BFDAE3852CEF4A0400ECAA6F /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE3842CEF4A0400ECAA6F /* FiltersViewController.swift */; };
+		BFDAE3892CF47ED700ECAA6F /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = BFDAE3882CF47ED700ECAA6F /* InlineSnapshotTesting */; };
+		BFDAE38B2CF47ED700ECAA6F /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = BFDAE38A2CF47ED700ECAA6F /* SnapshotTesting */; };
+		BFDAE38F2CF5CD4800ECAA6F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAE38E2CF5CD4800ECAA6F /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +145,7 @@
 		BFDAE3802CEF316800ECAA6F /* StatisticsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsItemView.swift; sourceTree = "<group>"; };
 		BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFilterHelper.swift; sourceTree = "<group>"; };
 		BFDAE3842CEF4A0400ECAA6F /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		BFDAE38E2CF5CD4800ECAA6F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		CCCB5FC4BF9A03240651C059 /* Pods-TrackerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrackerApp.release.xcconfig"; path = "Target Support Files/Pods-TrackerApp/Pods-TrackerApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,6 +162,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFDAE38B2CF47ED700ECAA6F /* SnapshotTesting in Frameworks */,
+				BFDAE3892CF47ED700ECAA6F /* InlineSnapshotTesting in Frameworks */,
 				635EAF80DFC410FD3B043D82 /* Pods_TrackerAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +313,7 @@
 				BFDAE3332CE6012B00ECAA6F /* EmptyStateType.swift */,
 				BFDAE3352CE6045B00ECAA6F /* EmptyStateView.swift */,
 				BFDAE3822CEF489C00ECAA6F /* TrackerFilterHelper.swift */,
+				BFDAE38E2CF5CD4800ECAA6F /* Date+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -455,6 +462,9 @@
 			);
 			mainGroup = BF6D4C552CA6AE030097D803;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BFDAE3872CF47ED700ECAA6F /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BF6D4C5F2CA6AE030097D803 /* Products */;
 			projectDirPath = "";
@@ -603,6 +613,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFB4255D2CAAB0A400CA4BAF /* Tracker.swift in Sources */,
+				BFDAE38F2CF5CD4800ECAA6F /* Date+Extension.swift in Sources */,
 				BFDAE32C2CE5F4C600ECAA6F /* CategoryCreationViewModel.swift in Sources */,
 				BFDAE3362CE6045B00ECAA6F /* EmptyStateView.swift in Sources */,
 				BFDAE32A2CE5F3FB00ECAA6F /* CategoryCreationViewController.swift in Sources */,
@@ -1003,6 +1014,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BFDAE3872CF47ED700ECAA6F /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BFDAE3882CF47ED700ECAA6F /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFDAE3872CF47ED700ECAA6F /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		BFDAE38A2CF47ED700ECAA6F /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFDAE3872CF47ED700ECAA6F /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		BFDAE2A32CCA76B800ECAA6F /* TrackerModel.xcdatamodeld */ = {
