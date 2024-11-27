@@ -23,7 +23,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         didSet {
             pinIconView.isHidden = !isPinned
             pinActionTitle = isPinned ? LocalizationHelper.localizedString("unpin") : LocalizationHelper.localizedString("pin")
-            print("isPinned updated to: \(isPinned)")
         }
     }
     
@@ -79,7 +78,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = .clear
         return view
     }()
-
+    
     private lazy var daysCounterLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -268,15 +267,15 @@ extension TrackersCollectionViewCell: UIContextMenuInteractionDelegate {
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] suggestedActions in
             guard let self = self else { return nil }
-
+            
             let pinAction = UIAction(title: self.pinActionTitle) { [weak self] action in
                 self?.onPin?()
             }
-
+            
             let editAction = UIAction(title: LocalizationHelper.localizedString("edit")) { [weak self] action in
                 self?.onEdit?()
             }
-
+            
             let deleteAction = UIAction(title: LocalizationHelper.localizedString("delete"), attributes: .destructive) { [weak self] action in
                 self?.onDelete?()
             }

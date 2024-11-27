@@ -8,9 +8,6 @@
 import UIKit
 
 final class StatisticsItemView: UIView {
-    
-    // MARK: - Public Properties
-    
     // MARK: - Private Properties
     private(set) var value: Int = 0
     

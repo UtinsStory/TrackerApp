@@ -343,7 +343,7 @@ final class TrackerViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func pinTracker(_ tracker: Tracker) {
-  
+        
         CoreDataMain.shared.trackerStore.pinTracker(tracker.id)
         reloadData()
     }
@@ -666,7 +666,7 @@ extension TrackerViewController: TrackersCellDelegate {
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         
         AnalyticsService.logEvent(event: "click", screen: "Main", item: "track")
-              print("Event logged: click, screen: Main, item: track")
+        print("Event logged: click, screen: Main, item: track")
         
         let selectedDate = datePicker.date
         let currentDate = Date()

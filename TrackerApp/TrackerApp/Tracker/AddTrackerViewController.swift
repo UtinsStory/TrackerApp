@@ -30,11 +30,11 @@ final class AddTrackerViewController: UIViewController {
         stackView.spacing = 16
         stackView.distribution = .fillEqually
         view.addSubview(stackView)
-
+        
         let buttonHabbit = createButton(title: LocalizationHelper.localizedString("habit"),
                                         action: #selector(habitButtonTaped))
         stackView.addArrangedSubview(buttonHabbit)
- 
+        
         let buttonOneEvent = createButton(title: LocalizationHelper.localizedString("irregularEvent"),
                                           action: #selector(irregularEventButtonTaped))
         stackView.addArrangedSubview(buttonOneEvent)
@@ -62,7 +62,7 @@ final class AddTrackerViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
-  
+        
         view.addSubview(label)
         
         NSLayoutConstraint.activate([
@@ -78,7 +78,7 @@ final class AddTrackerViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: action, for: .touchUpInside)
-
+        
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.setTitleColor(.ypWhite, for: .normal)
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true

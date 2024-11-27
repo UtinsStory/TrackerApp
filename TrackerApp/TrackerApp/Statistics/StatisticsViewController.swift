@@ -73,12 +73,12 @@ final class StatisticsViewController: UIViewController {
         NSLayoutConstraint.activate([
             emptyStatisticLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStatisticLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
+            
             errorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorImageView.bottomAnchor.constraint(equalTo: emptyStatisticLabel.topAnchor, constant: -8),
             errorImageView.widthAnchor.constraint(equalToConstant: 80),
             errorImageView.heightAnchor.constraint(equalToConstant: 80),
-
+            
             statisticsItemView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 77),
             statisticsItemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             statisticsItemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),

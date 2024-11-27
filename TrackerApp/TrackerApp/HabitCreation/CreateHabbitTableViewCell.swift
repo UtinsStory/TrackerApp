@@ -46,7 +46,6 @@ final class CreateHabbitTableViewCell: UITableViewCell {
     private lazy var customSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .ypGray
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
