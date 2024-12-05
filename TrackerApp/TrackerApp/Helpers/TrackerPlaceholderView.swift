@@ -10,7 +10,7 @@ final class PlaceholderView: UIView {
     
     private lazy var emptyStateLabel: UILabel = {
         let emptyStateLabel = UILabel()
-        emptyStateLabel.text = "Что будем отслеживать?"
+        emptyStateLabel.text = LocalizationHelper.localizedString("emptyTrackersText")
         emptyStateLabel.font = .systemFont(ofSize: 12, weight: .medium)
         emptyStateLabel.textColor = .ypBlack
         emptyStateLabel.textAlignment = .center
@@ -34,6 +34,15 @@ final class PlaceholderView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with type: EmptyStateType, labelHeight: CGFloat) {
+        emptyStateImageView.image = type.image
+        emptyStateLabel.text = type.text
+        
+        NSLayoutConstraint.activate([
+            emptyStateLabel.heightAnchor.constraint(equalToConstant: labelHeight)
+        ])
     }
     
     // MARK: - Setup View

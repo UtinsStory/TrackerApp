@@ -14,6 +14,20 @@ protocol TrackersCellDelegate: AnyObject {
 final class TrackersCollectionViewCell: UICollectionViewCell {
     
     static let cellIdentifier = "TrackerCell"
+    
+    var onPin: (() -> Void)?
+    var onEdit: (() -> Void)?
+    var onDelete: (() -> Void)?
+    
+    var isPinned: Bool = false {
+        didSet {
+            pinIconView.isHidden = !isPinned
+            pinActionTitle = isPinned ? LocalizationHelper.localizedString("unpin") : LocalizationHelper.localizedString("pin")
+        }
+    }
+    
+    private var pinActionTitle = LocalizationHelper.localizedString("pin")
+    
     var daysCounter = 0
     
     let coloredRectangleView: UIView = {
@@ -32,13 +46,20 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var pinIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "pin")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     let whiteEmojiBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white.withAlphaComponent(0.3)
         return view
     }()
-
+    
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,22 +79,20 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // Счётчик дней
     private lazy var daysCounterLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "\(daysCounter) день"
+        label.text = "\(daysCounter)"
         return label
     }()
     
-    
     private lazy var coloredCircleButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "completeTracker"), for: .normal) // ?
+        button.setImage(UIImage(named: "plus"), for: .normal) // ?
         button.backgroundColor = .ypColorSelection1
-        let image = UIImage(named: "completeTracker")?
+        let image = UIImage(named: "plus")?
             .withTintColor(UIColor(ciColor: .white), renderingMode: .alwaysOriginal)
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 12))
         button.setImage(image, for: .normal)
@@ -90,6 +109,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupContextMenu()
     }
     
     required init?(coder: NSCoder) {
@@ -109,13 +129,18 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         coloredCircleButton.clipsToBounds = true
     }
     
+    private func setupContextMenu() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        coloredRectangleView.addInteraction(interaction)
+    }
     //MARK: - Helpers
     
     private func setupUI() {
         contentView.addSubview(coloredRectangleView)
-        contentView.addSubview(emojiLabel)
-        contentView.addSubview(whiteEmojiBackground)
-        contentView.addSubview(mainLabel)
+        coloredRectangleView.addSubview(emojiLabel)
+        coloredRectangleView.addSubview(whiteEmojiBackground)
+        coloredRectangleView.addSubview(mainLabel)
+        coloredRectangleView.addSubview(pinIconView)
         contentView.addSubview(nonColoredRectangleView)
         contentView.addSubview(daysCounterLabel)
         contentView.addSubview(coloredCircleButton)
@@ -150,7 +175,12 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             coloredCircleButton.heightAnchor.constraint(equalToConstant: 34),
             
             daysCounterLabel.centerYAnchor.constraint(equalTo: coloredCircleButton.centerYAnchor),
-            daysCounterLabel.leadingAnchor.constraint(equalTo: nonColoredRectangleView.leadingAnchor, constant: 12)
+            daysCounterLabel.leadingAnchor.constraint(equalTo: nonColoredRectangleView.leadingAnchor, constant: 12),
+            
+            pinIconView.topAnchor.constraint(equalTo: coloredRectangleView.topAnchor, constant: 12),
+            pinIconView.trailingAnchor.constraint(equalTo: coloredRectangleView.trailingAnchor, constant: -4),
+            pinIconView.widthAnchor.constraint(equalToConstant: 24),
+            pinIconView.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     
@@ -158,14 +188,17 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         with tracker: Tracker,
         isCompletedToday: Bool,
         completedDays: Int,
-        indexPath: IndexPath
+        indexPath: IndexPath,
+        isPinned: Bool
     ) {
         self.trackerId = tracker.id
         self.isCompletedToday = isCompletedToday
         self.indexPath = indexPath
+        self.isPinned = isPinned
         
         mainLabel.text = tracker.title
         emojiLabel.text = tracker.emoji
+        
         if let color = UIColor(hexString: tracker.color) {
             coloredRectangleView.backgroundColor = color
             coloredCircleButton.backgroundColor = color
@@ -186,11 +219,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         let remainder100 = count % 100
         
         if remainder10 == 1 && remainder100 != 11 {
-            return "\(count) день"
+            return "\(count) \(LocalizationHelper.localizedString("day"))"
         } else if remainder10 >= 2 && remainder100 <= 4 && (remainder100 < 10 || remainder100 >= 20) {
-            return "\(count) дня"
+            return "\(count) \(LocalizationHelper.localizedString("days"))"
         } else {
-            return "\(count) дней"
+            return "\(count) \(LocalizationHelper.localizedString("days"))"
         }
     }
     
@@ -226,5 +259,27 @@ extension UIImage {
         defer { UIGraphicsEndImageContext() }
         draw(in: CGRect(origin: .zero, size: size))
         return UIGraphicsGetImageFromCurrentImageContext()
+    }
+}
+
+extension TrackersCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] suggestedActions in
+            guard let self = self else { return nil }
+            
+            let pinAction = UIAction(title: self.pinActionTitle) { [weak self] action in
+                self?.onPin?()
+            }
+            
+            let editAction = UIAction(title: LocalizationHelper.localizedString("edit")) { [weak self] action in
+                self?.onEdit?()
+            }
+            
+            let deleteAction = UIAction(title: LocalizationHelper.localizedString("delete"), attributes: .destructive) { [weak self] action in
+                self?.onDelete?()
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        }
     }
 }

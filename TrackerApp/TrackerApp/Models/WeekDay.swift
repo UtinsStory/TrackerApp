@@ -26,38 +26,65 @@ enum WeekDay: Int, CaseIterable {
     func asText() -> String {
         switch self {
         case .sunday:
-            return "Воскресенье"
+            return LocalizationHelper.localizedString("sunday")
         case .monday:
-            return "Понедельник"
+            return LocalizationHelper.localizedString("monday")
         case .tuesday:
-            return "Вторник"
+            return LocalizationHelper.localizedString("tuesday")
         case .wednesday:
-            return "Среда"
+            return LocalizationHelper.localizedString("wednesday")
         case .thursday:
-            return "Четверг"
+            return LocalizationHelper.localizedString("thursday")
         case .friday:
-            return "Пятница"
+            return LocalizationHelper.localizedString("friday")
         case .saturday:
-            return "Суббота"
+            return LocalizationHelper.localizedString("saturday")
         }
     }
     
     func asShortText() -> String {
         switch self {
         case .sunday:
-            return "Вс"
+            return LocalizationHelper.localizedString("sundayShort")
         case .monday:
-            return "Пн"
+            return LocalizationHelper.localizedString("mondayShort")
         case .tuesday:
-            return "Вт"
+            return LocalizationHelper.localizedString("tuesdayShort")
         case .wednesday:
-            return "Ср"
+            return LocalizationHelper.localizedString("wednesdayShort")
         case .thursday:
-            return "Чт"
+            return LocalizationHelper.localizedString("thursdayShort")
         case .friday:
-            return "Пт"
+            return LocalizationHelper.localizedString("fridayShort")
         case .saturday:
-            return "Сб"
+            return LocalizationHelper.localizedString("saturdayShort")
         }
+    }
+}
+
+extension Array where Element == WeekDay {
+    var displayText: String {
+        if isEverydaySelected(self) {
+            return LocalizationHelper.localizedString("everyday")
+        } else if isWeekdaysSelected(self) {
+            return LocalizationHelper.localizedString("weekdays")
+        } else if isWeekendSelected(self) {
+            return LocalizationHelper.localizedString("weekends")
+        } else {
+            return map { $0.asShortText() }.joined(separator: ", ")
+        }
+    }
+    
+    private func isEverydaySelected(_ days: [WeekDay]) -> Bool {
+        return Set(days) == Set(WeekDay.allCases)
+    }
+    
+    private func isWeekdaysSelected(_ days: [WeekDay]) -> Bool {
+        let weekdays: Set<WeekDay> = [.monday, .tuesday, .wednesday, .thursday, .friday]
+        return Set(days) == weekdays
+    }
+    
+    private func isWeekendSelected(_ days: [WeekDay]) -> Bool {
+        Set(days) == [.saturday, .sunday]
     }
 }

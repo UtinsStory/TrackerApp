@@ -1,0 +1,108 @@
+/* 
+  Localizable.strings
+  TrackerApp
+
+  Created by Гена Утин on 15.11.2024.
+  
+*/
+
+//MARK: - Onboarding
+
+"onboardingText1" = "Отслеживайте только то, что хотите";
+"onboardingText2" = "Даже если это не литры воды и йога";
+"onboardingButtonText" = "Вот это технологии!";
+
+//MARK: - TrackerViewController
+
+"trackers" = "Трекеры";
+"search" = "Поиск";
+"emptyTrackersText" = "Что будем отслеживать?";
+"filtres" = "Фильтры";
+"areYouSure" = "Уверены что хотите удалить трекер?";
+"delete" = "Удалить";
+"pin" = "Закрепить";
+"unpin" = "Открепить";
+"edit" = "Редактировать";
+"nothingFound" = "Ничего не найдено";
+
+//MARK: - AddTrackerViewController
+
+"trackerCreation" = "Создание трекера";
+"habit" = "Привычка";
+"irregularEvent" = "Нерегулярное событие";
+
+//MARK: - CreateHabitViewController
+
+"newHabit" = "Новая привычка";
+"newIrregularEvent" = "Новое нерегулярное событие";
+"enterTrackerName" = "Введите название трекера";
+"category" = "Категория";
+"schedule" = "Расписание";
+"emoji" = "Эмодзи";
+"color" = "Цвет";
+"cancel" = "Отмена";
+"create" = "Создать";
+"save" = "Сохранить";
+"characterLimit" = "Ограничение 38 символов";
+"editHabit" = "Редактирование привычки";
+"default" = "По умолчанию";
+
+//MARK: - CategoryCreationViewController
+
+"newCategory" = "Новая категория";
+"enterCategoryName" = "Введите название категории";
+"doneButtonText" = "Готово";
+"pinned" = "Закрепленные";
+
+//MARK: - CategoryListViewController
+
+"addCategoryButtonText" = "Добавить категорию";
+"noCategoryText" = "Привычки и события можно\nобъединить по смыслу";
+
+//MARK: - ScheduleViewController
+
+"monday" = "Понедельник";
+"tuesday" = "Вторник";
+"wednesday" = "Среда";
+"thursday" = "Четверг";
+"friday" = "Пятница";
+"saturday" = "Суббота";
+"sunday" = "Воскресенье";
+
+"mondayShort" = "Пн";
+"tuesdayShort" = "Вт";
+"wednesdayShort" = "Ср";
+"thursdayShort" = "Чт";
+"fridayShort" = "Пт";
+"saturdayShort" = "Сб";
+"sundayShort" = "Вс";
+
+"weekdays" = "Будни";
+"weekends" = "Выходные дни";
+"everyday" = "Каждый день";
+
+//MARK: - TrackerCollectionViewCell
+
+"day" = "день";
+"days" = "дня";
+"daysMany" = "дней";
+
+//MARK: - FiltersViewController
+
+"allTrackers" = "Все трекеры";
+"todayTrackers" = "Трекеры на сегодня";
+"completedTrackers" = "Завершенные";
+"uncompletedTrackers" = "Незавершенные";
+"filters" = "Фильтры";
+
+
+//MARK: - TabBarController
+
+"statistic" = "Статистика";
+
+//MARK: - StatisticViewController
+
+"emptyStatisticText" = "Анализировать пока нечего";
+"completedTrackers" = "Трекеров завершено";
+
+

@@ -64,15 +64,15 @@ extension TrackerRecordStore {
         newRecord.id = UUID()
         newRecord.tracker = tracker
         newRecord.date = date
-
+        
         saveContext()
-
+        
     }
-
+    
     func removeTrackerRecord(for tracker: TrackerCoreData, date: Date) {
         let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "tracker == %@ AND date == %@", tracker, date as CVarArg)
-
+        
         do {
             let results = try managedObjectContext.fetch(fetchRequest)
             for result in results {
@@ -83,11 +83,11 @@ extension TrackerRecordStore {
             print("Failed to fetch tracker records: \(error)")
         }
     }
-
+    
     func isTrackerCompletedToday(tracker: TrackerCoreData, date: Date) -> Bool {
         let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "tracker == %@ AND date == %@", tracker, date as CVarArg)
-
+        
         do {
             let results = try managedObjectContext.fetch(fetchRequest)
             return !results.isEmpty
@@ -96,11 +96,11 @@ extension TrackerRecordStore {
             return false
         }
     }
-
+    
     func completedDaysCount(for tracker: TrackerCoreData) -> Int {
         let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "tracker == %@", tracker)
-
+        
         do {
             let results = try managedObjectContext.fetch(fetchRequest)
             return results.count
@@ -109,4 +109,33 @@ extension TrackerRecordStore {
             return 0
         }
     }
+    
+    func getCompletedTrackersCount() -> Int {
+        let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        
+        do {
+            let records = try managedObjectContext.fetch(fetchRequest)
+            return records.count
+        } catch {
+            print("Failed to fetch tracker records: \(error)")
+            return 0
+        }
+    }
+    
+    func deleteAllTrackerRecords(with trackerID: UUID) {
+        let fetchRequest: NSFetchRequest<TrackerRecordCoreData> = TrackerRecordCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "tracker.id == %@", trackerID as CVarArg)
+        
+        do {
+            let records = try managedObjectContext.fetch(fetchRequest)
+            for record in records {
+                managedObjectContext.delete(record)
+            }
+            saveContext()
+            delegate?.trackerRecordStoreDidUpdate()
+        } catch {
+            print("Failed to delete tracker records: \(error)")
+        }
+    }
+    
 }

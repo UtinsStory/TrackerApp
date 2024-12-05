@@ -11,11 +11,14 @@ final class CategoryCreationViewController: UIViewController {
 
     var onCategoryAdded: ((String) -> Void)?
     private var viewModel = CategoryCreationViewModel()
+    
+    private let buttonTextColor = UIColor { traitCollection in
+        return traitCollection.userInterfaceStyle == .dark ? .black : .ypWhite
+    }
 
-    // Заголовок страницы
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Новая категория"
+        label.text = LocalizationHelper.localizedString("newCategory")
         label.textColor = .ypBlack
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -24,10 +27,9 @@ final class CategoryCreationViewController: UIViewController {
         return label
     }()
 
-    // текстовое поле для ввода названия категории
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Введите название категории"
+        textField.placeholder = LocalizationHelper.localizedString("enterCategoryName")
         textField.textAlignment = .left
         textField.layer.masksToBounds = true
         textField.layer.cornerRadius = 16
@@ -48,12 +50,12 @@ final class CategoryCreationViewController: UIViewController {
         return textField
     }()
 
-    // Кнопка создания категории
     private lazy var creationButton: UIButton = {
         let creation = UIButton()
-        creation.setTitle("Готово", for: .normal)
+        creation.setTitle(LocalizationHelper.localizedString("doneButtonText"), for: .normal)
         creation.backgroundColor = .ypGray
         creation.layer.cornerRadius = 16
+        creation.setTitleColor(buttonTextColor, for: .normal)
         creation.translatesAutoresizingMaskIntoConstraints = false
         creation.addTarget(self,
                            action: #selector(creationButtonTapped),
@@ -67,6 +69,7 @@ final class CategoryCreationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
+        hideKeyboardWhenTappedAround()
         setupTitleLabel()
         setupCreationButton()
         setupNameTextField()
@@ -85,6 +88,7 @@ final class CategoryCreationViewController: UIViewController {
         viewModel.onCreationButtonStateUpdated = { [weak self] isEnabled in
             self?.creationButton.isEnabled = isEnabled
             self?.creationButton.backgroundColor = isEnabled ? .ypBlack : .ypGray
+            self?.creationButton.setTitleColor(isEnabled ? .ypWhite : .white, for: .normal)
         }
     }
 

@@ -13,6 +13,7 @@ protocol TrackerCategoryStoreDelegate: AnyObject {
 
 final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     weak var delegate: TrackerCategoryStoreDelegate?
+    
     private let managedObjectContext: NSManagedObjectContext
     private var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>!
     
@@ -24,29 +25,29 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     }
     
     func fetchCategory(by header: String) -> TrackerCategoryCoreData? {
-            let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
         request.predicate = NSPredicate(format: "header == %@", header)
-            return try? managedObjectContext.fetch(request).first
+        return try? managedObjectContext.fetch(request).first
+    }
+    
+    func createCategory(header: String) {
+        if fetchCategory(by: header) == nil {
+            let category = TrackerCategoryCoreData(context: managedObjectContext)
+            category.header = header
+            saveContext()
         }
-        
-        func createCategory(header: String) {
-            if fetchCategory(by: header) == nil {
-                let category = TrackerCategoryCoreData(context: managedObjectContext)
-                category.header = header
-                saveContext()
-            }
+    }
+    
+    func fetchCategories() -> [TrackerCategory] {
+        let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
+        do {
+            let categoryEntities = try managedObjectContext.fetch(fetchRequest)
+            return categoryEntities.map { TrackerCategory(header: $0.header ?? "", trackers: []) }
+        } catch let error as NSError {
+            print(error.userInfo)
+            return []
         }
-        
-        func fetchCategories() -> [TrackerCategory] {
-            let fetchRequest: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-            do {
-                let categoryEntities = try managedObjectContext.fetch(fetchRequest)
-                return categoryEntities.map { TrackerCategory(header: $0.header ?? "", trackers: []) }
-            } catch let error as NSError {
-                print(error.userInfo)
-                return []
-            }
-        }
+    }
     
     
     func setupFetchResultsController() {

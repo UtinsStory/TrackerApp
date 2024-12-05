@@ -14,15 +14,16 @@ final class TabBarController: UITabBarController {
         let trackerVC = TrackerViewController()
         let statisticsVC = StatisticsViewController()
         
-        trackerVC.tabBarItem = UITabBarItem(title: "Трекеры",
+        trackerVC.tabBarItem = UITabBarItem(title: LocalizationHelper.localizedString("trackers"),
                                             image: UIImage(named: "trackers_tabbar"),
                                             selectedImage: nil)
         
-        statisticsVC.tabBarItem = UITabBarItem(title: "Статистика",
+        statisticsVC.tabBarItem = UITabBarItem(title: LocalizationHelper.localizedString("statistic"),
                                                image: UIImage(named: "stats_tabbar"),
                                                selectedImage: nil)
         
-       let trackerNavigationController = UINavigationController(rootViewController: trackerVC)
+        let trackerNavigationController = UINavigationController(rootViewController: trackerVC)
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsVC)
         
         
         let separatorImage = UIImage()
@@ -31,7 +32,7 @@ final class TabBarController: UITabBarController {
         self.tabBar.layer.borderWidth = 0.50
         self.tabBar.clipsToBounds = true
         
-        self.viewControllers = [trackerNavigationController, statisticsVC]
+        self.viewControllers = [trackerNavigationController, statisticsNavigationController]
         
     }
 }
